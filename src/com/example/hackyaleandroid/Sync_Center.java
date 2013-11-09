@@ -15,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -26,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.MotionEvent;
 import android.view.View.OnTouchListener;
 
@@ -131,12 +133,12 @@ public class Sync_Center extends Activity
 					location.setBackground(null);
 					location.setBackgroundResource(R.drawable.new_place);
 					location.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT-300,1.0f));
-					
+
 					final ImageButton spacer = new ImageButton(mcontext);
 					spacer.setBackground(null);
 					spacer.setBackgroundResource(R.drawable.new_time);
 					spacer.setVisibility(View.INVISIBLE);
-					
+
 					final ImageButton time = new ImageButton(mcontext);
 					time.setBackground(null);
 					time.setBackgroundResource(R.drawable.new_time);
@@ -144,58 +146,154 @@ public class Sync_Center extends Activity
 					((ViewGroup) findViewById(R.id.Buttons)).addView(location);
 					((ViewGroup) findViewById(R.id.Buttons)).addView(spacer);
 					((ViewGroup) findViewById(R.id.Buttons)).addView(time);
-					
+
 					location.setOnClickListener(new OnClickListener()
 					{
 						public void onClick(View v)
 						{
 							//title text, location text , trigger radio, radius int , actions check box
-							
+
 							//clear the previous stuff
 							((ViewGroup) findViewById(R.id.Buttons)).removeView(location);
 							((ViewGroup) findViewById(R.id.Buttons)).removeView(spacer);
 							((ViewGroup) findViewById(R.id.Buttons)).removeView(time);
-							
+
 							//title text
+							LinearLayout text = new LinearLayout(mcontext);
+							text.setOrientation(LinearLayout.VERTICAL);
 							EditText title=new EditText(mcontext);
-							title.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-							((ViewGroup) findViewById(R.id.Buttons)).addView(title);
-							
+							TextView label = new TextView(mcontext);
+							title.setBackgroundColor(Color.GRAY);
+							LinearLayout.LayoutParams layoutParams =new LinearLayout.LayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+
+							label.setText("Sync Name: ");
+							text.addView(label, layoutParams);
+							text.addView(title,layoutParams);
+							TextView spacer = new TextView(mcontext);
+							spacer.setVisibility(View.INVISIBLE);
+							text.addView(spacer,layoutParams);
+
 							//Location text
+							TextView Address = new TextView(mcontext);
+							Address.setText("Address: ");
 							EditText address=new EditText(mcontext);
-							address.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-							((ViewGroup) findViewById(R.id.Buttons)).addView(address);
-							
-							
-							//trigger
+							address.setBackgroundColor(Color.GRAY);
+							text.addView(Address,layoutParams);
+							text.addView(address,layoutParams);
+							((ViewGroup) findViewById(R.id.Buttons)).addView(text);
+
+
+							//trigger (arriving or leaving)
 							final RadioButton[] rb = new RadioButton[5];
-						    RadioGroup rg = new RadioGroup(mcontext); //create the RadioGroup
-						    rg.setOrientation(RadioGroup.HORIZONTAL);//or RadioGroup.VERTICAL
-						    
-						    
-						    rb[0]  = new RadioButton(mcontext);
-						    rg.addView(rb[0]); //the RadioButtons are added to the radioGroup instead of the layout
-						    rb[0].setText("Arriving");
-						    
-						    rb[1]  = new RadioButton(mcontext);
-						    rg.addView(rb[0]); //the RadioButtons are added to the radioGroup instead of the layout
-						    rb[1].setText("Leaving");
-						    rb[2]  = new RadioButton(mcontext);
-						    rg.addView(rb[0]); //the RadioButtons are added to the radioGroup instead of the layout
-						    rb[2].setText("Leaving");
-						    
-						    ((ViewGroup) findViewById(R.id.Buttons)).addView(rg);//you add the whole RadioGroup to the layout
-						    ((ViewGroup) findViewById(R.id.Buttons)).addView(submit); 
-						    submit.setOnClickListener(new View.OnClickListener() {
-						        public void onClick(View v) {
-						            for(int i = 0; i < 5; i++) { 
-						                rg.removeView(rb[i]);//now the RadioButtons are in the RadioGroup
-						            }  
-						            ll.removeView(submit);
-						            Questions();
-						        }
-						    });  
-							
+							RadioGroup rg = new RadioGroup(mcontext); //create the RadioGroup
+							rg.setOrientation(RadioGroup.HORIZONTAL);//or RadioGroup.VERTICAL
+
+							rb[0]  = new RadioButton(mcontext);
+							rg.addView(rb[0]); //the RadioButtons are added to the radioGroup instead of the layout
+							rb[0].setText("Arriving");
+							rb[0].setChecked(true);
+
+							rb[1]  = new RadioButton(mcontext);
+							rg.addView(rb[1]); //the RadioButtons are added to the radioGroup instead of the layout
+							rb[1].setText("Leaving");
+							rb[1].setChecked(false);
+
+							((ViewGroup) findViewById(R.id.Buttons)).addView(rg);//you add the whole RadioGroup to the layout   
+							rg.setOnClickListener(new OnClickListener() {
+								public void onClick(View v) {
+									int checkedValue=-1;
+									if(rb[0].isChecked())
+									{
+										//Arriving
+										checkedValue=0;
+									}
+									else
+									{
+										//leaving
+										checkedValue=1;
+									}
+								}
+							});  
+
+							boolean wifiSelected, soundSelected, bluetoothSelected, smsSelected;
+							String textMessage;
+							CheckBox wifi = new CheckBox(mcontext);	
+							CheckBox sound = new CheckBox(mcontext);
+							CheckBox bluetooth = new CheckBox(mcontext);
+							CheckBox sms = new CheckBox(mcontext);	
+
+
+
+							wifi.setOnClickListener(new OnClickListener() {
+								public void onClick(View v) 
+								{	
+									boolean wifiSelected;
+									wifiSelected=true;
+								}
+							});
+
+							sound.setOnClickListener(new OnClickListener() {
+								public void onClick(View v) 
+								{	
+									boolean soundSelected;
+									int soundSetting;
+									soundSelected=true;
+
+									final RadioButton[] rb = new RadioButton[5];
+									RadioGroup rg = new RadioGroup(mcontext); //create the RadioGroup
+									rg.setOrientation(RadioGroup.HORIZONTAL);//or RadioGroup.VERTICAL
+
+									rb[0]  = new RadioButton(mcontext);
+									rg.addView(rb[0]); //the RadioButtons are added to the radioGroup instead of the layout
+									rb[0].setText("Silent");
+									rb[0].setChecked(false);
+
+									rb[1]  = new RadioButton(mcontext);
+									rg.addView(rb[1]); //the RadioButtons are added to the radioGroup instead of the layout
+									rb[1].setText("Vibrate");
+									rb[1].setChecked(false);
+
+									rb[2]  = new RadioButton(mcontext);
+									rg.addView(rb[2]); //the RadioButtons are added to the radioGroup instead of the layout
+									rb[2].setText("Normal");
+									rb[2].setChecked(false);
+
+									rb[3]  = new RadioButton(mcontext);
+									rg.addView(rb[3]); //the RadioButtons are added to the radioGroup instead of the layout
+									rb[3].setText("Loud");
+									rb[3].setChecked(false);
+
+									((ViewGroup) findViewById(R.id.Buttons)).addView(rg);//you add the whole RadioGroup to the layout   
+									rg.setOnClickListener(new OnClickListener()
+									{
+										public void onClick(View v)
+										{
+											int checkedValue=-1;
+											if(rb[0].isChecked())
+											{
+												//silent
+												checkedValue=0;
+											}
+											if(rb[1].isChecked())
+											{
+												//vibrate
+												checkedValue=1;
+											}
+											if(rb[2].isChecked())
+											{
+												//normal
+												checkedValue=2;
+											}
+											if(rb[3].isChecked())
+											{
+												//loud
+												checkedValue=3;
+											}
+										}
+										//TODO return checkedValue
+									});  
+								}
+							});
 							//et.getText().toString();
 						}
 					});
@@ -213,9 +311,9 @@ public class Sync_Center extends Activity
 			}
 		});
 
-					//deleteButton = (Button) findViewById(R.id.delete);
-					//((ViewGroup) findViewById(R.id.relativeLayout)).addView(Buttons);
-					setContentView(findViewById(R.id.relativeLayout));
+		//deleteButton = (Button) findViewById(R.id.delete);
+		//((ViewGroup) findViewById(R.id.relativeLayout)).addView(Buttons);
+		setContentView(findViewById(R.id.relativeLayout));
 	}
 
 
