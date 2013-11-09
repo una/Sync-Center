@@ -1,7 +1,6 @@
 package com.example.hackyaleandroid;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
 
@@ -226,7 +225,8 @@ public class Sync_Center extends Activity
       
       boolean CreateGeoFence(String Name, String strAddress, float radius, int transition)
       {
-    	  Geocoder coder;
+    	  mRequestType = GeofenceUtils.REQUEST_TYPE.ADD;
+    	  Geocoder coder = new Geocoder(this);
     	  double lat, lng;
     	  //check that we have google-play service
     	  if (servicesConnected())
@@ -251,6 +251,14 @@ public class Sync_Center extends Activity
         	  //add to geoFenceStore and dictionary
     		  mPrefs.setGeofence(Name, myFence);
     		  CurrentFences.put(Name, myFence);
+    		  
+    		  //start request
+    		  try {
+    	            // Try to add geofences
+    	            mGeofenceRequester.addGeofences(mCurrentGeofences);
+    	        } catch (UnsupportedOperationException e) {
+    	        	System.out.println("last reuqest hasn't processed");
+    	        }
     		  return true;
     		  }
     	  
