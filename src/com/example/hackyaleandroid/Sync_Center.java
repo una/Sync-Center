@@ -39,7 +39,7 @@ public class Sync_Center extends Activity
 	EditText Text;
 	ImageButton plusButton; 
 	Button deleteButton;
-	
+
 	public RadioButton[] getRb() {
 		return rb;
 	}
@@ -109,20 +109,20 @@ public class Sync_Center extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sync__center);
 		final Context mcontext = getBaseContext() ;
-		
+
 		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		WifiManager wifiManager = (WifiManager) mcontext.getSystemService(Context.WIFI_SERVICE);
 		AudioManager audioManager = (AudioManager) mcontext.getSystemService(Context.AUDIO_SERVICE);
 		SmsManager sms = SmsManager.getDefault();
-		
+
 		rb = new RadioButton[8];
 		arriveLeave = new RadioGroup(mcontext);
 		rgSounds = new RadioGroup(mcontext);
 		TextLayout = new LinearLayout(mcontext);
 		Address = new TextView(mcontext);
 		arriveOrLeave=0;//0 means arrive, 1 means leave
-		
-		
+
+
 		header= new ImageButton(mcontext);
 		//we want the main screen, which draws ImageButtons of the saved syncsIn addition to a plus up top
 		header.setImageResource(R.drawable.header_logo);
@@ -225,7 +225,7 @@ public class Sync_Center extends Activity
 							((ViewGroup) findViewById(R.id.Buttons)).removeView(time);
 
 							//title text
-							
+
 							TextLayout.setOrientation(LinearLayout.VERTICAL);
 							EditText title=new EditText(mcontext);
 							TextView label = new TextView(mcontext);
@@ -240,7 +240,7 @@ public class Sync_Center extends Activity
 							TextLayout.addView(spacer,layoutParams);
 
 							//Location text
-							
+
 							Address.setText("Address: ");
 							EditText address=new EditText(mcontext);
 							address.setBackgroundColor(Color.GRAY);
@@ -319,7 +319,7 @@ public class Sync_Center extends Activity
 									}
 								}
 							});
-							
+
 							sms.setOnClickListener(new OnClickListener() {
 								public void onClick(View v) 
 								{
@@ -347,13 +347,17 @@ public class Sync_Center extends Activity
 									}
 									else if (!sms.isChecked())
 									{
-										((ViewGroup) findViewById(R.id.Buttons)).removeView(textMessageLayout);
 										textMessageLayout.setVisibility(View.GONE);
+										((ViewGroup) findViewById(R.id.Buttons)).removeView(textMessageLayout);
+										textMessage="";
+										phoneNumber="";
+										smsSelected=false;
+										
 									}
 								}
 							});
-							
-							
+
+
 							sound.setOnClickListener(new OnClickListener() {
 								public void onClick(View v) 
 								{	
@@ -387,7 +391,7 @@ public class Sync_Center extends Activity
 										{
 											public void onClick(View v)
 											{
-											
+
 												if(rb[0].isChecked())
 												{
 													//silent
