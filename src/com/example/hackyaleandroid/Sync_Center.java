@@ -18,6 +18,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.LinearLayout;
@@ -34,7 +36,6 @@ public class Sync_Center extends Activity
 	EditText text;
 	ImageButton plusButton; 
 	Button deleteButton;
-	LinearLayout Buttons;
 
 	final static int MAIN=0,CHOOSESYNC=1, NEWSYNC=2, TIMESYNC=3, PLACESYNC=4;
 	static int State = MAIN;
@@ -59,26 +60,24 @@ public class Sync_Center extends Activity
 		header.setImageResource(R.drawable.header_logo);
 		header.setScaleType(ImageView.ScaleType.FIT_CENTER);
 		header.setBackground(null);
-		
-		Buttons = new LinearLayout(mcontext);
-		
+
 		((ViewGroup) findViewById(R.id.headerDiv)).addView(header);
 		ImageButton plusButton1 = new ImageButton(this);
 		plusButton1.setBackgroundResource(R.drawable.circ_plus);
 		plusButton1.setVisibility(View.INVISIBLE);
-		Buttons.addView(plusButton1);
+		((ViewGroup) findViewById(R.id.Buttons)).addView(plusButton1);
 		ImageButton plusButton2 = new ImageButton(this);
 		plusButton2.setBackgroundResource(R.drawable.circ_plus);
-		Buttons.addView(plusButton2);
+		((ViewGroup) findViewById(R.id.Buttons)).addView(plusButton2);
 		plusButton2.setVisibility(View.INVISIBLE);
-		
+
 		plusButton = new ImageButton(mcontext);
 		plusButton.setBackground(null);
 		plusButton.setBackgroundResource(R.drawable.circ_plus);
 		plusButton.setLayoutParams(new LinearLayout.LayoutParams(100, 100));
-		
-		Buttons.setOrientation(LinearLayout.VERTICAL);
-		Buttons.addView(plusButton);
+
+
+		((ViewGroup) findViewById(R.id.Buttons)).addView(plusButton);
 
 		for(int i=0; i < numberOfSyncs; i++)
 		{
@@ -94,7 +93,7 @@ public class Sync_Center extends Activity
 				}
 			});
 
-			Buttons.addView(button);
+			((ViewGroup) findViewById(R.id.Buttons)).addView(button);
 		}
 		plusButton.setOnClickListener(new OnClickListener()
 		{
@@ -106,9 +105,14 @@ public class Sync_Center extends Activity
 				{
 					//start afresh! by removing the plus button (then updating the logo) and removing the already established syncs!
 					((ViewGroup) findViewById(R.id.headerDiv)).removeView(header);
-					Buttons.setVisibility(View.INVISIBLE);
+					((ViewGroup) findViewById(R.id.Buttons)).removeView(plusButton);
+					for (int i=0;i<numberOfSyncs;i++)
+					{
+						((ViewGroup) findViewById(R.id.Buttons)).removeView(findViewById(i+1));
+					}
+
+					//draw the new header
 					ImageButton headerBuild= new ImageButton(mcontext);
-					//we want the main screen, which draws ImageButtons of the saved syncsIn addition to a plus up top
 					headerBuild.setImageResource(R.drawable.header_build);
 					headerBuild.setScaleType(ImageView.ScaleType.FIT_CENTER);
 					headerBuild.setBackground(null);
@@ -122,18 +126,79 @@ public class Sync_Center extends Activity
 						}
 					});
 
-					//now let's update the header with the times option and the house option
-					ImageButton location = new ImageButton(mcontext);
+					//now let's update Buttons with the times option and the house option
+					final ImageButton location = new ImageButton(mcontext);
 					location.setBackground(null);
 					location.setBackgroundResource(R.drawable.new_place);
-					location.setLayoutParams(new LinearLayout.LayoutParams(200, 200));
-
-					ImageButton time = new ImageButton(mcontext);
+					location.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT-300,1.0f));
+					
+					final ImageButton spacer = new ImageButton(mcontext);
+					spacer.setBackground(null);
+					spacer.setBackgroundResource(R.drawable.new_time);
+					spacer.setVisibility(View.INVISIBLE);
+					
+					final ImageButton time = new ImageButton(mcontext);
 					time.setBackground(null);
 					time.setBackgroundResource(R.drawable.new_time);
-					((ViewGroup) findViewById(R.id.headerDiv)).addView(location);
-					((ViewGroup) findViewById(R.id.headerDiv)).addView(time);
-					time.setLayoutParams(new LinearLayout.LayoutParams(200, 200));
+					time.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT-300,1.0f));
+					((ViewGroup) findViewById(R.id.Buttons)).addView(location);
+					((ViewGroup) findViewById(R.id.Buttons)).addView(spacer);
+					((ViewGroup) findViewById(R.id.Buttons)).addView(time);
+					
+					location.setOnClickListener(new OnClickListener()
+					{
+						public void onClick(View v)
+						{
+							//title text, location text , trigger radio, radius int , actions check box
+							
+							//clear the previous stuff
+							((ViewGroup) findViewById(R.id.Buttons)).removeView(location);
+							((ViewGroup) findViewById(R.id.Buttons)).removeView(spacer);
+							((ViewGroup) findViewById(R.id.Buttons)).removeView(time);
+							
+							//title text
+							EditText title=new EditText(mcontext);
+							title.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+							((ViewGroup) findViewById(R.id.Buttons)).addView(title);
+							
+							//Location text
+							EditText address=new EditText(mcontext);
+							address.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+							((ViewGroup) findViewById(R.id.Buttons)).addView(address);
+							
+							
+							//trigger
+							final RadioButton[] rb = new RadioButton[5];
+						    RadioGroup rg = new RadioGroup(mcontext); //create the RadioGroup
+						    rg.setOrientation(RadioGroup.HORIZONTAL);//or RadioGroup.VERTICAL
+						    
+						    
+						    rb[0]  = new RadioButton(mcontext);
+						    rg.addView(rb[0]); //the RadioButtons are added to the radioGroup instead of the layout
+						    rb[0].setText("Arriving");
+						    
+						    rb[1]  = new RadioButton(mcontext);
+						    rg.addView(rb[0]); //the RadioButtons are added to the radioGroup instead of the layout
+						    rb[1].setText("Leaving");
+						    rb[2]  = new RadioButton(mcontext);
+						    rg.addView(rb[0]); //the RadioButtons are added to the radioGroup instead of the layout
+						    rb[2].setText("Leaving");
+						    
+						    ((ViewGroup) findViewById(R.id.Buttons)).addView(rg);//you add the whole RadioGroup to the layout
+						    ((ViewGroup) findViewById(R.id.Buttons)).addView(submit); 
+						    submit.setOnClickListener(new View.OnClickListener() {
+						        public void onClick(View v) {
+						            for(int i = 0; i < 5; i++) { 
+						                rg.removeView(rb[i]);//now the RadioButtons are in the RadioGroup
+						            }  
+						            ll.removeView(submit);
+						            Questions();
+						        }
+						    });  
+							
+							//et.getText().toString();
+						}
+					});
 				}
 
 
@@ -148,9 +213,9 @@ public class Sync_Center extends Activity
 			}
 		});
 
-		//deleteButton = (Button) findViewById(R.id.delete);
-		((ViewGroup) findViewById(R.id.relativeLayout)).addView(Buttons);
-		setContentView(findViewById(R.id.relativeLayout));
+					//deleteButton = (Button) findViewById(R.id.delete);
+					//((ViewGroup) findViewById(R.id.relativeLayout)).addView(Buttons);
+					setContentView(findViewById(R.id.relativeLayout));
 	}
 
 
@@ -162,14 +227,6 @@ public class Sync_Center extends Activity
 		return true;
 	}
 
-	public void toggleInvisibility(boolean turnOn)
-	{
-		if(turnOn)
-			Buttons.setVisibility(View.INVISIBLE);
-		else
-			Buttons.setVisibility(View.VISIBLE);
-
-	}
 
 	public void toggleBluetooth(BluetoothAdapter mBluetoothAdapter,boolean turnOn)
 	{
