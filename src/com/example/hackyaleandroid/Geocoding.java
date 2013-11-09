@@ -1,60 +1,31 @@
 package com.example.hackyaleandroid;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.hackyaleandroid.GeofenceUtils.REQUEST_TYPE;
-
-import android.location.Address;
-import android.location.Geocoder;
-import android.media.AudioManager;
-import android.net.wifi.WifiManager;
-import android.os.Bundle;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.PendingIntent;
-import android.bluetooth.BluetoothAdapter;
-import android.support.v4.content.LocalBroadcastManager;
-import android.telephony.SmsManager;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.Menu;
-import android.widget.TextView;
-import android.widget.Button;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.Toast;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.view.MotionEvent;
-import android.view.View.OnTouchListener;
+import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.example.hackyaleandroid.GeofenceUtils.REMOVE_TYPE;
+import com.example.hackyaleandroid.GeofenceUtils.REQUEST_TYPE;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.Geofence;
 
+public class Geocoding {
 
-public class Sync_Center extends Activity 
-{
-        
-    EditText text;
-    ImageButton plusButton; 
-    Button deleteButton;
-    
-    //temp 
-    Button[] buttons = new Button[10];  
-        
-    //GEOFENCING STUFF 
+	  //GEOFENCING STUFF 
     private static final long GEOFENCE_EXPIRATION = Geofence.NEVER_EXPIRE;
 
    // Store the current request
@@ -89,163 +60,39 @@ public class Sync_Center extends Activity
 
    // Store the list of geofences to remove
    private List<String> mGeofenceIdsToRemove;
-        
-    @Override
-    protected void onCreate(Bundle savedInstanceState) 
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sync__center);
-        Context mcontext = getBaseContext() ;
-        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        WifiManager wifiManager = (WifiManager) mcontext.getSystemService(Context.WIFI_SERVICE);
-	    AudioManager audioManager = (AudioManager) mcontext.getSystemService(Context.AUDIO_SERVICE);
-	    geofenceInit();
-	    SmsManager sms = SmsManager.getDefault();
-        TextView text = new TextView(this);
-        text.setText("hackYale");
-        
-        plusButton = (ImageButton) findViewById(R.id.plus);
-        plusButton.setOnClickListener(new OnClickListener()
-        {
-                public void onClick(View v)
-                {
-                        Toast.makeText(getApplicationContext(), "Button Pressed", Toast.LENGTH_SHORT).show();
-                }
-        });
-        
-        
-        //deleteButton = (Button) findViewById(R.id.delete);
-        
-        //TODO: the 40 will be replaced by the number of previously stored thingies
-        for(int i=0; i < 40; i++)
-        {
-                Button button = new Button(this);
-                button.setId(i+1);
-                button.setText("NEW Buttons"+(i+1));
-                
-                button.setOnClickListener(new OnClickListener()
-                {
-                        public void onClick(View v)
-                        {
-                                Toast.makeText(getApplicationContext(), "Button Pressed", Toast.LENGTH_SHORT).show();
-                        }
-                });
-                ((ViewGroup) findViewById(R.id.linearLayout)).addView(button);
-        }
-        setContentView(findViewById(R.id.relativeLayout));
-        if (CreateGeoFence("Home", "145 Route 45, Salem, NJ 08079", 5))
-        	System.out.println("Josh us super awesome!! Boom baby!");
-    }
-
-    public void toggleBluetooth(BluetoothAdapter mBluetoothAdapter,boolean turnOn)
-    {
-      if(turnOn)
+   
+   //main constructor...
+   public Geocoding()
       {
-          mBluetoothAdapter.enable(); 
-      }   
-      else
-      {
-        mBluetoothAdapter.disable();
-      }
-    }
-    //turns on wifi if true, turns off if false
-      public void wifiToggle(WifiManager wifiManager, boolean turnOn)
-      {
-        wifiManager.setWifiEnabled(turnOn);
-      }
-  
-      public void soundToggle(AudioManager audioManager, int state)
-      {
-        //For Normal mode
-        if(state==-1)
-        {
-          audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-        }
-  
-        //For Silent mode
-        if(state==0)
-        {
-          audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-        }
-  
-        //For Vibrate mode
-        if(state==1)
-        {
-          audioManager.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
-        }
-      }
-  
-      //sends a text message to a number
-      public void sendSMS(SmsManager sms, String phoneNumber, String message)
-      { 
-        PendingIntent pi = PendingIntent.getActivity(this, 0,
-                  new Intent(), 0); 
-        sms.sendTextMessage(phoneNumber, null, message, pi, null);
-        
-      }
-      public void geofenceInit()
-      {
-       // Create a new broadcast receiver to receive updates from the listeners and service
-      mBroadcastReceiver = new GeofenceSampleReceiver();
-
-      // Create an intent filter for the broadcast receiver
-      mIntentFilter = new IntentFilter();
-
-      // Action for broadcast Intents that report successful addition of geofences
-      mIntentFilter.addAction(GeofenceUtils.ACTION_GEOFENCES_ADDED);
-
-      // Action for broadcast Intents that report successful removal of geofences
-      mIntentFilter.addAction(GeofenceUtils.ACTION_GEOFENCES_REMOVED);
-
-      // Action for broadcast Intents containing various types of geofencing errors
-      mIntentFilter.addAction(GeofenceUtils.ACTION_GEOFENCE_ERROR);
-
-      // All Location Services sample apps use this category
-      mIntentFilter.addCategory(GeofenceUtils.CATEGORY_LOCATION_SERVICES);
-
-      // Instantiate a new geofence storage area
-      mPrefs = new SimpleGeofenceStore(this);
-
-      // Instantiate the current List of geofences
-      mCurrentGeofences = new ArrayList<Geofence>();
-
-      // Instantiate a Geofence requester
-      mGeofenceRequester = new GeofenceRequester(this);
-
-      // Instantiate a Geofence remover
-      mGeofenceRemover = new GeofenceRemover(this);
-      }
-      
-      boolean CreateGeoFence(String Name, String strAddress, int radius)
-      {
-    	  Geocoder coder;
-    	  double lat, lng;
-    	  //check that we have google-play service
-    	  if (servicesConnected())
-    		  {
-    		//get lat and lng of location
-    		  try {
-    			  List<Address> results = coder.getFromLocationName(strAddress,1);
-    			    if (results == null) {
-    			        return false;
-    			    }
-    			    Address location = address.get(0);
-    			    lat = location.getLatitude();
-    			    lng = location.getLongitude();
-    			}
-    		  catch(Exception ex)
-    		  {
-    			  return false;
-    		  }
-        	  //create SimpleGeoFence
-        	  //add to geoFenceStore
-    		  return true;
-    		  //add to our dictionary as {Name: geofence}
-    		  }
-    	  
-    	  return false;
-    	  
-    	  
+	       // Create a new broadcast receiver to receive updates from the listeners and service
+	      mBroadcastReceiver = new GeofenceSampleReceiver();
+	
+	      // Create an intent filter for the broadcast receiver
+	      mIntentFilter = new IntentFilter();
+	
+	      // Action for broadcast Intents that report successful addition of geofences
+	      mIntentFilter.addAction(GeofenceUtils.ACTION_GEOFENCES_ADDED);
+	
+	      // Action for broadcast Intents that report successful removal of geofences
+	      mIntentFilter.addAction(GeofenceUtils.ACTION_GEOFENCES_REMOVED);
+	
+	      // Action for broadcast Intents containing various types of geofencing errors
+	      mIntentFilter.addAction(GeofenceUtils.ACTION_GEOFENCE_ERROR);
+	
+	      // All Location Services sample apps use this category
+	      mIntentFilter.addCategory(GeofenceUtils.CATEGORY_LOCATION_SERVICES);
+	
+	      // Instantiate a new geofence storage area
+	      mPrefs = new SimpleGeofenceStore(this);
+	
+	      // Instantiate the current List of geofences
+	      mCurrentGeofences = new ArrayList<Geofence>();
+	
+	      // Instantiate a Geofence requester
+	      mGeofenceRequester = new GeofenceRequester(this);
+	
+	      // Instantiate a Geofence remover
+	      mGeofenceRemover = new GeofenceRemover(this);
       }
       
       private boolean servicesConnected() {
@@ -436,4 +283,5 @@ public class Sync_Center extends Activity
                   return mDialog;
               }
           }
+
 }
