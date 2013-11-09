@@ -69,7 +69,8 @@ public class Sync_Center extends Activity
 
    // Store a list of geofences to add
    List<Geofence> mCurrentGeofences;
-
+   
+   
    // Add geofences handler
    private GeofenceRequester mGeofenceRequester;
    // Remove geofences handler
@@ -77,7 +78,8 @@ public class Sync_Center extends Activity
    // decimal formats for latitude, longitude, and radius
    private DecimalFormat mLatLngFormat;
    private DecimalFormat mRadiusFormat;
-
+   
+   public Context mcontext;
    /*
     * An instance of an inner class that receives broadcasts from listeners and from the
     * IntentService that receives geofence transition events
@@ -96,7 +98,7 @@ public class Sync_Center extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sync__center);
-        Context mcontext = getBaseContext() ;
+        mcontext = getBaseContext() ;
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         WifiManager wifiManager = (WifiManager) mcontext.getSystemService(Context.WIFI_SERVICE);
 	    AudioManager audioManager = (AudioManager) mcontext.getSystemService(Context.AUDIO_SERVICE);
@@ -223,69 +225,6 @@ public class Sync_Center extends Activity
       
       }
       
-      boolean CreateGeoFence(String Name, String strAddress, float radius, int transition)
-      {
-    	  mRequestType = GeofenceUtils.REQUEST_TYPE.ADD;
-    	  Geocoder coder = new Geocoder(this);
-    	  double lat, lng;
-    	  //check that we have google-play service
-    	  if (servicesConnected())
-    		  {
-    		//get lat and lng of location
-    		  try {
-    			  List<Address> results = coder.getFromLocationName(strAddress,1);
-    			    if (results == null) {
-    			        return false;
-    			    }
-    			    Address location = results.get(0);
-    			    lat = location.getLatitude();
-    			    lng = location.getLongitude();
-    			}
-    		  catch(Exception ex)
-    		  {
-    			  return false;
-    		  }
-        	  //create SimpleGeoFence
-    		  SimpleGeofence myFence = new SimpleGeofence(Name,lat,lng,radius,GEOFENCE_EXPIRATION, transition);
-    		  
-        	  //add to geoFenceStore and dictionary
-    		  mPrefs.setGeofence(Name, myFence);
-    		  CurrentFences.put(Name, myFence);
-    		  
-    		  //start request
-    		  try {
-    	            // Try to add geofences
-    	            mGeofenceRequester.addGeofences(mCurrentGeofences);
-    	        } catch (UnsupportedOperationException e) {
-    	        	System.out.println("last reuqest hasn't processed");
-    	        }
-    		  return true;
-    		  }
-    	  
-    	  return false;
-    	  
-    	  
-      }
-      
-      private boolean servicesConnected() {
-              // Check that Google Play services is available
-              int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-              // If Google Play services is available
-              if (ConnectionResult.SUCCESS == resultCode) 
-              {
-                      // In debug mode, log the status
-                      System.out.println("Geofence Detection Google Play services is available.");
-                      // Continue
-                      return true;
-                      // Google Play services was not available for some reason
-              }
-              else
-              {
-                      //TODO: We werent able to connect!
-                      System.out.println("we failed!");
-                      return false;
-              }
-      }
       
         protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
               // Choose what to do based on the request code
