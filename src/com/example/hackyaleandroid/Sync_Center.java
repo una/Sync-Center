@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.telephony.SmsManager;
-import android.util.Log;
 import android.view.Menu;
 import android.widget.TextView;
 import android.widget.Button;
@@ -81,15 +80,6 @@ public class Sync_Center extends Activity
         setContentView(findViewById(R.id.relativeLayout));
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) 
-    {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.sync__center, menu);
-        return true;
-    }
-    
     public void toggleBluetooth(BluetoothAdapter mBluetoothAdapter,boolean turnOn)
     {
       if(turnOn)
