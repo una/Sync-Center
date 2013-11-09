@@ -1,6 +1,8 @@
 package com.example.hackyaleandroid;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.List;
 
 import com.example.hackyaleandroid.GeofenceUtils.REQUEST_TYPE;
@@ -53,7 +55,7 @@ public class Sync_Center extends Activity
     
     //temp 
     Button[] buttons = new Button[10];  
-        
+    
     //GEOFENCING STUFF 
     private static final long GEOFENCE_EXPIRATION = Geofence.NEVER_EXPIRE;
 
@@ -73,7 +75,6 @@ public class Sync_Center extends Activity
    private GeofenceRequester mGeofenceRequester;
    // Remove geofences handler
    private GeofenceRemover mGeofenceRemover;
-
    // decimal formats for latitude, longitude, and radius
    private DecimalFormat mLatLngFormat;
    private DecimalFormat mRadiusFormat;
@@ -87,6 +88,7 @@ public class Sync_Center extends Activity
    // An intent filter for the broadcast receiver
    private IntentFilter mIntentFilter;
 
+   private HashMap<String, SimpleGeofence> CurrentFences;
    // Store the list of geofences to remove
    private List<String> mGeofenceIdsToRemove;
         
@@ -133,8 +135,7 @@ public class Sync_Center extends Activity
                 ((ViewGroup) findViewById(R.id.linearLayout)).addView(button);
         }
         setContentView(findViewById(R.id.relativeLayout));
-        if (CreateGeoFence("Home", "145 Route 45, Salem, NJ 08079", 5))
-        	System.out.println("Josh us super awesome!! Boom baby!");
+        
     }
 
     public void toggleBluetooth(BluetoothAdapter mBluetoothAdapter,boolean turnOn)
@@ -214,9 +215,16 @@ public class Sync_Center extends Activity
 
       // Instantiate a Geofence remover
       mGeofenceRemover = new GeofenceRemover(this);
+      
+      CurrentFences = new HashMap<String,SimpleGeofence>();
+      //TODO: need to instantiate from DB first start running 
+      
+      if (CreateGeoFence("Home", "145 Route 45, Salem, NJ 08079", 500,Geofence.GEOFENCE_TRANSITION_ENTER))
+      	System.out.println("Josh is super awesome!! Boom baby!");
+      
       }
       
-      boolean CreateGeoFence(String Name, String strAddress, int radius)
+      boolean CreateGeoFence(String Name, String strAddress, float radius, int transition)
       {
     	  Geocoder coder;
     	  double lat, lng;
@@ -229,7 +237,7 @@ public class Sync_Center extends Activity
     			    if (results == null) {
     			        return false;
     			    }
-    			    Address location = address.get(0);
+    			    Address location = results.get(0);
     			    lat = location.getLatitude();
     			    lng = location.getLongitude();
     			}
@@ -238,9 +246,12 @@ public class Sync_Center extends Activity
     			  return false;
     		  }
         	  //create SimpleGeoFence
-        	  //add to geoFenceStore
+    		  SimpleGeofence myFence = new SimpleGeofence(Name,lat,lng,radius,GEOFENCE_EXPIRATION, transition);
+    		  
+        	  //add to geoFenceStore and dictionary
+    		  mPrefs.setGeofence(Name, myFence);
+    		  CurrentFences.put(Name, myFence);
     		  return true;
-    		  //add to our dictionary as {Name: geofence}
     		  }
     	  
     	  return false;
