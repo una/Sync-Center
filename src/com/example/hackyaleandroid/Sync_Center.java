@@ -62,18 +62,10 @@ public class Sync_Center extends Activity
    public static AudioManager maudioManager;
    public static SmsManager msms;
    public static Context mcontext;
-   /*
-    * An instance of an inner class that receives broadcasts from listeners and from the
-    * IntentService that receives geofence transition events
-    */
-   private GeofenceSampleReceiver mBroadcastReceiver;
-
-   // An intent filter for the broadcast receiver
-   private IntentFilter mIntentFilter;
-
-   private HashMap<String, Sync> currentSyncs;
-   // Store the list of geofences to remove
-   private List<String> mGeofenceIdsToRemove;
+  
+   
+   public static HashMap<String, LocationSync> currentLocationSyncs;
+   public static HashMap<String, TimeSync	> currentTimeSyncs;
         
     @Override
     protected void onCreate(Bundle savedInstanceState) 
@@ -118,5 +110,6 @@ public class Sync_Center extends Activity
         }
         setContentView(findViewById(R.id.relativeLayout));
         
+        currentSyncs = new HashMap<String,Sync>();
     }
 }

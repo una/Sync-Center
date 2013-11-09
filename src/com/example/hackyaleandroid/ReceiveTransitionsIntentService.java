@@ -46,21 +46,7 @@ public class ReceiveTransitionsIntentService extends IntentService {
 
         // First check for errors
         if (LocationClient.hasError(intent)) {
-
-            // Get the error code
-            int errorCode = LocationClient.getErrorCode(intent);
-
-            // Get the error message
-            String errorMessage = "bad shit happened";
-
-            // Log the error
-           
-            // Set the action and error message for the broadcast intent
-            broadcastIntent.setAction(GeofenceUtils.ACTION_GEOFENCE_ERROR)
-                           .putExtra(GeofenceUtils.EXTRA_GEOFENCE_STATUS, errorMessage);
-
-            // Broadcast the error *locally* to other components in this app
-            LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
+        	return;
 
         // If there's no error, get the transition type and create a notification
         } 
@@ -79,7 +65,12 @@ public class ReceiveTransitionsIntentService extends IntentService {
                 {
                     geofenceIds[index] = geofences.get(index).getRequestId();
                 }
-                String ids = TextUtils.join(GeofenceUtils.GEOFENCE_ID_DELIMITER,geofenceIds);
+                for(String id: geofenceIds)
+                {
+                	Sync_Center.currentLocationSyncs.get(id).performActions();
+                }
+                
+                //use list of ids to call perform
             } 
         }
     }

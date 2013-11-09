@@ -1,12 +1,15 @@
 package com.example.hackyaleandroid;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
 import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
 import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationClient.OnAddGeofencesResultListener;
+import com.google.android.gms.location.LocationStatusCodes;
 
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -20,7 +23,11 @@ OnConnectionFailedListener,
 OnAddGeofencesResultListener {
 
 	Geofence myFence;
-	PendingIntent myIntent;
+	private LocationClient mLocationClient;
+	
+	private PendingIntent mGeofenceRequestIntent;
+	// Flag that indicates if a request is underway.
+    private boolean mInProgress;
 
 	public LocationSync(String nName, 
 			boolean changeWifi, 
@@ -32,8 +39,9 @@ OnAddGeofencesResultListener {
 			int transition)
 	{
 		super(nName, changeWifi, changeBlueTooth,volume, text);
+		mInProgress = false;
 		if(servicesConnected())
-			if(CreateGeoFence(nName, address, radius, transition))
+			if(CreateGeoFence(nName, Address, radius, transition))
 			{
 				System.out.println("got Geofence");
 				
@@ -92,9 +100,52 @@ OnAddGeofencesResultListener {
   	  
   	  
     }
+	
+	 public void addGeofences() {
+	        /*
+	         * Test for Google Play services after setting the request type.
+	         * If Google Play services isn't present, the proper request
+	         * can be restarted.
+	         */
+	        if (!servicesConnected()) {
+	            return;
+	        }
+	        /*
+	         * Create a new location client object. Since the current
+	         * activity class implements ConnectionCallbacks and
+	         * OnConnectionFailedListener, pass the current activity object
+	         * as the listener for both parameters
+	         */
+	        mLocationClient = new LocationClient(Sync_Center.mcontext,this,this);
+	        // If a request is not already underway
+	        if (!mInProgress) {
+	            // Indicate that a request is underway
+	            mInProgress = true;
+	            // Request a connection from the client to Location Services
+	            mLocationClient.connect();
+	        } else {
+	            /*
+	             * A request is already underway. You can handle
+	             * this situation by disconnecting the client,
+	             * re-setting the flag, and then re-trying the
+	             * request.
+	             */
+	        	mLocationClient.disconnect();
+	        	mInProgress = false;
+	        	addGeofences();
+	        }
+	    }
+	
 	@Override
 	public void onAddGeofencesResult(int arg0, String[] arg1) {
-		// TODO Auto-generated method stub
+		if (LocationStatusCodes.SUCCESS == arg0) {
+            System.out.println("successfully added geofence");
+        } else {
+        	System.out.println("ERROR: could not add fence");
+        }
+        // Turn off the in progress flag and disconnect the client
+        mInProgress = false;
+        mLocationClient.disconnect();
 		
 	}
 	@Override
@@ -104,12 +155,24 @@ OnAddGeofencesResultListener {
 	}
 	@Override
 	public void onConnected(Bundle connectionHint) {
-		// TODO Auto-generated method stub
+		// Get the PendingIntent for the request
+		mGeofenceRequestIntent =
+                getTransitionPendingIntent();
+        // Send a request to add the current geofences
+		ArrayList<Geofence> fences = new ArrayList<Geofence>();
+		fences.add(myFence);
+        mLocationClient.addGeofences(
+                fences, mGeofenceRequestIntent, this);
 		
 	}
 	@Override
 	public void onDisconnected() {
-		// TODO Auto-generated method stub
+		 // Turn off the request flag
+        mInProgress = false;
+        // Destroy the current location client
+        mLocationClient = null;
 		
 	}
+	
+	
 }
