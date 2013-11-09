@@ -12,6 +12,7 @@ public class Sync_Center extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sync__center);
         
+        
         TextView text = new TextView(this);
         text.setText("hackYale");
         setContentView(text);
