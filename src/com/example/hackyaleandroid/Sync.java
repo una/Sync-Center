@@ -13,13 +13,18 @@ import android.text.format.Time;
 abstract class Sync {
 
 	private String mName;
-	public Boolean mchangeWifi, mchangeBluetooth, musingGF, msendText;
+	public Boolean mchangeWifi, mchangeBluetooth, msendText;
 	public int mchangeVolume;
 	private TextMessage mtext;
 	
 	//constructor
-	public Sync()
+	public Sync(String nName, boolean changeWifi, boolean changeBlueTooth, int volume, TextMessage text)
 	{
+		mName = nName;
+		mchangeWifi = changeWifi;
+		mchangeBluetooth = changeBlueTooth;
+		mtext = text;
+		mchangeVolume = volume;
 		
 	}
 	
