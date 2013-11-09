@@ -198,19 +198,24 @@ public class Sync_Center extends Activity
 					final ImageButton location = new ImageButton(mcontext);
 					location.setBackground(null);
 					location.setBackgroundResource(R.drawable.new_place);
-					location.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT-300,1.0f));
+					location.setLayoutParams(new LinearLayout.LayoutParams(300, 300));
 
 					final ImageButton spacer = new ImageButton(mcontext);
 					spacer.setBackground(null);
 					spacer.setBackgroundResource(R.drawable.new_time);
 					spacer.setVisibility(View.INVISIBLE);
+					final ImageButton spacer2 = new ImageButton(mcontext);
+					spacer2.setBackground(null);
+					spacer2.setBackgroundResource(R.drawable.new_time);
+					spacer2.setVisibility(View.INVISIBLE);
 
 					final ImageButton time = new ImageButton(mcontext);
 					time.setBackground(null);
 					time.setBackgroundResource(R.drawable.new_time);
-					time.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT-300,1.0f));
+					time.setLayoutParams(new LinearLayout.LayoutParams(300, 300));
 					((ViewGroup) findViewById(R.id.Buttons)).addView(location);
 					((ViewGroup) findViewById(R.id.Buttons)).addView(spacer);
+					((ViewGroup) findViewById(R.id.Buttons)).addView(spacer2);
 					((ViewGroup) findViewById(R.id.Buttons)).addView(time);
 
 					location.setOnClickListener(new OnClickListener()
@@ -222,6 +227,7 @@ public class Sync_Center extends Activity
 							//clear the previous stuff
 							((ViewGroup) findViewById(R.id.Buttons)).removeView(location);
 							((ViewGroup) findViewById(R.id.Buttons)).removeView(spacer);
+							((ViewGroup) findViewById(R.id.Buttons)).removeView(spacer2);
 							((ViewGroup) findViewById(R.id.Buttons)).removeView(time);
 
 							//title text
@@ -348,6 +354,7 @@ public class Sync_Center extends Activity
 									else if (!sms.isChecked())
 									{
 										textMessageLayout.setVisibility(View.GONE);
+										textMessageLayout.setVisibility(View.INVISIBLE);
 										((ViewGroup) findViewById(R.id.Buttons)).removeView(textMessageLayout);
 										textMessage="";
 										phoneNumber="";
@@ -421,6 +428,16 @@ public class Sync_Center extends Activity
 										((ViewGroup) findViewById(R.id.Buttons)).removeView(rgSounds);
 									}
 								}
+							});
+						Button submit = new Button(mcontext);
+						submit.setText("SUBMIT");
+						((ViewGroup) findViewById(R.id.Buttons)).addView(submit);
+						submit.setOnClickListener(new OnClickListener()
+						{
+							public void onClick(View v)
+							{
+								Toast.makeText(getApplicationContext(), "Submitted!", Toast.LENGTH_SHORT).show();
+							}
 							});
 						}
 					});
