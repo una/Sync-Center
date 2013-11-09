@@ -417,6 +417,7 @@ public class Sync_Center extends Activity
 									}
 									else if (!sound.isChecked())
 									{
+										soundSelected=false;
 										((ViewGroup) findViewById(R.id.Buttons)).removeView(rgSounds);
 									}
 								}
