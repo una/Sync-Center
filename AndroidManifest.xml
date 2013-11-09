@@ -25,7 +25,8 @@
         android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         <activity
             android:name="com.example.hackyaleandroid.Sync_Center"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:windowSoftInputMode="stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -35,9 +36,58 @@ import android.view.View.OnTouchListener;
 public class Sync_Center extends Activity 
 {
 
-	EditText text;
+	EditText Text;
 	ImageButton plusButton; 
 	Button deleteButton;
+	
+	public RadioButton[] getRb() {
+		return rb;
+	}
+
+
+	public void setRb(RadioButton[] rb) {
+		this.rb = rb;
+	}
+
+
+	public RadioGroup getArriveLeave() {
+		return arriveLeave;
+	}
+
+
+	public void setArriveLeave(RadioGroup arriveLeave) {
+		this.arriveLeave = arriveLeave;
+	}
+
+
+	public RadioGroup getRgSounds() {
+		return rgSounds;
+	}
+
+
+	public void setRgSounds(RadioGroup rgSounds) {
+		this.rgSounds = rgSounds;
+	}
+
+
+	public TextView getAddress() {
+		return Address;
+	}
+
+
+	public void setAddress(TextView address) {
+		Address = address;
+	}
+
+
+	public int getArriveOrLeave() {
+		return arriveOrLeave;
+	}
+
+
+	public void setArriveOrLeave(int arriveOrLeave) {
+		this.arriveOrLeave = arriveOrLeave;
+	}
 
 	final static int MAIN=0,CHOOSESYNC=1, NEWSYNC=2, TIMESYNC=3, PLACESYNC=4;
 	static int State = MAIN;
@@ -45,6 +95,13 @@ public class Sync_Center extends Activity
 	Button[] buttons = new Button[10];
 	int numberOfSyncs=2;
 	ImageButton header;
+	RadioButton[] rb;
+	RadioGroup arriveLeave, rgSounds;
+	LinearLayout TextLayout;
+	TextView Address;
+	int arriveOrLeave, soundSetting;
+	boolean wifiSelected, soundSelected, bluetoothSelected, smsSelected;
+	String textMessage,phoneNumber;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -52,11 +109,20 @@ public class Sync_Center extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sync__center);
 		final Context mcontext = getBaseContext() ;
+		
 		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		WifiManager wifiManager = (WifiManager) mcontext.getSystemService(Context.WIFI_SERVICE);
 		AudioManager audioManager = (AudioManager) mcontext.getSystemService(Context.AUDIO_SERVICE);
 		SmsManager sms = SmsManager.getDefault();
-
+		
+		rb = new RadioButton[8];
+		arriveLeave = new RadioGroup(mcontext);
+		rgSounds = new RadioGroup(mcontext);
+		TextLayout = new LinearLayout(mcontext);
+		Address = new TextView(mcontext);
+		arriveOrLeave=0;//0 means arrive, 1 means leave
+		
+		
 		header= new ImageButton(mcontext);
 		//we want the main screen, which draws ImageButtons of the saved syncsIn addition to a plus up top
 		header.setImageResource(R.drawable.header_logo);
@@ -159,142 +225,198 @@ public class Sync_Center extends Activity
 							((ViewGroup) findViewById(R.id.Buttons)).removeView(time);
 
 							//title text
-							LinearLayout text = new LinearLayout(mcontext);
-							text.setOrientation(LinearLayout.VERTICAL);
+							
+							TextLayout.setOrientation(LinearLayout.VERTICAL);
 							EditText title=new EditText(mcontext);
 							TextView label = new TextView(mcontext);
 							title.setBackgroundColor(Color.GRAY);
 							LinearLayout.LayoutParams layoutParams =new LinearLayout.LayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
 							label.setText("Sync Name: ");
-							text.addView(label, layoutParams);
-							text.addView(title,layoutParams);
+							TextLayout.addView(label, layoutParams);
+							TextLayout.addView(title,layoutParams);
 							TextView spacer = new TextView(mcontext);
 							spacer.setVisibility(View.INVISIBLE);
-							text.addView(spacer,layoutParams);
+							TextLayout.addView(spacer,layoutParams);
 
 							//Location text
-							TextView Address = new TextView(mcontext);
+							
 							Address.setText("Address: ");
 							EditText address=new EditText(mcontext);
 							address.setBackgroundColor(Color.GRAY);
-							text.addView(Address,layoutParams);
-							text.addView(address,layoutParams);
-							((ViewGroup) findViewById(R.id.Buttons)).addView(text);
-
+							TextLayout.addView(Address,layoutParams);
+							TextLayout.addView(address,layoutParams);
+							((ViewGroup) findViewById(R.id.Buttons)).addView(TextLayout);
 
 							//trigger (arriving or leaving)
-							final RadioButton[] rb = new RadioButton[5];
-							RadioGroup rg = new RadioGroup(mcontext); //create the RadioGroup
-							rg.setOrientation(RadioGroup.HORIZONTAL);//or RadioGroup.VERTICAL
+							arriveLeave.setOrientation(RadioGroup.HORIZONTAL);//or RadioGroup.VERTICAL
 
 							rb[0]  = new RadioButton(mcontext);
-							rg.addView(rb[0]); //the RadioButtons are added to the radioGroup instead of the layout
+							arriveLeave.addView(rb[0]); //the RadioButtons are added to the radioGroup instead of the layout
 							rb[0].setText("Arriving");
 							rb[0].setChecked(true);
 
 							rb[1]  = new RadioButton(mcontext);
-							rg.addView(rb[1]); //the RadioButtons are added to the radioGroup instead of the layout
+							arriveLeave.addView(rb[1]); //the RadioButtons are added to the radioGroup instead of the layout
 							rb[1].setText("Leaving");
 							rb[1].setChecked(false);
 
-							((ViewGroup) findViewById(R.id.Buttons)).addView(rg);//you add the whole RadioGroup to the layout   
-							rg.setOnClickListener(new OnClickListener() {
+							((ViewGroup) findViewById(R.id.Buttons)).addView(arriveLeave);//you add the whole RadioGroup to the layout   
+							arriveLeave.setOnClickListener(new OnClickListener() {
 								public void onClick(View v) {
-									int checkedValue=-1;
+									getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 									if(rb[0].isChecked())
 									{
 										//Arriving
-										checkedValue=0;
+										arriveOrLeave=0;
 									}
 									else
 									{
 										//leaving
-										checkedValue=1;
+										arriveOrLeave=1;
 									}
 								}
 							});  
 
-							boolean wifiSelected, soundSelected, bluetoothSelected, smsSelected;
-							String textMessage;
-							CheckBox wifi = new CheckBox(mcontext);	
-							CheckBox sound = new CheckBox(mcontext);
-							CheckBox bluetooth = new CheckBox(mcontext);
-							CheckBox sms = new CheckBox(mcontext);	
+							final CheckBox wifi = new CheckBox(mcontext);	
+							wifi.setText("Wifi");
+							final CheckBox sound = new CheckBox(mcontext);
+							sound.setText("Sound");
+							final CheckBox bluetooth = new CheckBox(mcontext);
+							bluetooth.setText("Bluetooth");
+							final CheckBox sms = new CheckBox(mcontext);	
+							sms.setText("Send Text Message");
 
-
+							((ViewGroup) findViewById(R.id.Buttons)).addView(sms);
+							((ViewGroup) findViewById(R.id.Buttons)).addView(bluetooth);
+							((ViewGroup) findViewById(R.id.Buttons)).addView(sound);
+							((ViewGroup) findViewById(R.id.Buttons)).addView(wifi);
 
 							wifi.setOnClickListener(new OnClickListener() {
 								public void onClick(View v) 
 								{	
-									boolean wifiSelected;
-									wifiSelected=true;
+									if(wifi.isSelected())
+									{
+										setWifiSelected(true);
+									}
+									else
+									{
+										setWifiSelected(false);
+									}
 								}
 							});
 
+							bluetooth.setOnClickListener(new OnClickListener() {
+								public void onClick(View v) 
+								{	
+									if(wifi.isSelected())
+									{
+										setBluetoothSelected(true);
+									}
+									else
+									{
+										setBluetoothSelected(false);
+									}
+								}
+							});
+							
+							sms.setOnClickListener(new OnClickListener() {
+								public void onClick(View v) 
+								{
+									LinearLayout textMessageLayout=new LinearLayout(mcontext);
+									textMessageLayout.setOrientation(LinearLayout.VERTICAL);
+									EditText smsMessage=new EditText(mcontext);
+									TextView smsMessageLabel = new TextView(mcontext);
+									EditText phoneNumbers=new EditText(mcontext);
+									TextView phoneNumberLabel = new TextView(mcontext);
+									if(sms.isChecked())
+									{
+										smsSelected=true;
+										smsMessageLabel.setText("Text Message");
+										smsMessage.setBackgroundColor(Color.GRAY);
+										phoneNumberLabel.setText("Phone Number");
+										phoneNumbers.setBackgroundColor(Color.GRAY);
+										LinearLayout.LayoutParams layoutParams =new LinearLayout.LayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+										textMessageLayout.addView(phoneNumberLabel,layoutParams);
+										textMessageLayout.addView(phoneNumbers,layoutParams);
+										textMessageLayout.addView(smsMessageLabel,layoutParams);
+										textMessageLayout.addView(smsMessage,layoutParams);
+										((ViewGroup) findViewById(R.id.Buttons)).addView(textMessageLayout);
+										textMessage=smsMessage.getText().toString();
+										phoneNumber=phoneNumbers.getText().toString();
+									}
+									else if (!sms.isChecked())
+									{
+										((ViewGroup) findViewById(R.id.Buttons)).removeView(textMessageLayout);
+										textMessageLayout.setVisibility(View.GONE);
+									}
+								}
+							});
+							
+							
 							sound.setOnClickListener(new OnClickListener() {
 								public void onClick(View v) 
 								{	
-									boolean soundSelected;
-									int soundSetting;
-									soundSelected=true;
-
-									final RadioButton[] rb = new RadioButton[5];
-									RadioGroup rg = new RadioGroup(mcontext); //create the RadioGroup
-									rg.setOrientation(RadioGroup.HORIZONTAL);//or RadioGroup.VERTICAL
-
-									rb[0]  = new RadioButton(mcontext);
-									rg.addView(rb[0]); //the RadioButtons are added to the radioGroup instead of the layout
-									rb[0].setText("Silent");
-									rb[0].setChecked(false);
-
-									rb[1]  = new RadioButton(mcontext);
-									rg.addView(rb[1]); //the RadioButtons are added to the radioGroup instead of the layout
-									rb[1].setText("Vibrate");
-									rb[1].setChecked(false);
-
-									rb[2]  = new RadioButton(mcontext);
-									rg.addView(rb[2]); //the RadioButtons are added to the radioGroup instead of the layout
-									rb[2].setText("Normal");
-									rb[2].setChecked(false);
-
-									rb[3]  = new RadioButton(mcontext);
-									rg.addView(rb[3]); //the RadioButtons are added to the radioGroup instead of the layout
-									rb[3].setText("Loud");
-									rb[3].setChecked(false);
-
-									((ViewGroup) findViewById(R.id.Buttons)).addView(rg);//you add the whole RadioGroup to the layout   
-									rg.setOnClickListener(new OnClickListener()
+									if(sound.isChecked())
 									{
-										public void onClick(View v)
+										soundSelected=true;
+										rgSounds.setOrientation(RadioGroup.HORIZONTAL);//or RadioGroup.VERTICAL
+
+										rb[2]  = new RadioButton(mcontext);
+										rgSounds.addView(rb[2]); //the RadioButtons are added to the radioGroup instead of the layout
+										rb[2].setText("Silent");
+										rb[2].setChecked(false);
+
+										rb[3]  = new RadioButton(mcontext);
+										rgSounds.addView(rb[3]); //the RadioButtons are added to the radioGroup instead of the layout
+										rb[3].setText("Vibrate");
+										rb[3].setChecked(false);
+
+										rb[4]  = new RadioButton(mcontext);
+										rgSounds.addView(rb[4]); //the RadioButtons are added to the radioGroup instead of the layout
+										rb[4].setText("Normal");
+										rb[4].setChecked(false);
+
+										rb[5]  = new RadioButton(mcontext);
+										rgSounds.addView(rb[5]); //the RadioButtons are added to the radioGroup instead of the layout
+										rb[5].setText("Loud");
+										rb[5].setChecked(false);
+
+										((ViewGroup) findViewById(R.id.Buttons)).addView(rgSounds);//you add the whole RadioGroup to the layout   
+										rgSounds.setOnClickListener(new OnClickListener()
 										{
-											int checkedValue=-1;
-											if(rb[0].isChecked())
+											public void onClick(View v)
 											{
-												//silent
-												checkedValue=0;
+											
+												if(rb[0].isChecked())
+												{
+													//silent
+													soundSetting=0;
+												}
+												if(rb[1].isChecked())
+												{
+													//vibrate
+													soundSetting=1;
+												}
+												if(rb[2].isChecked())
+												{
+													//normal
+													soundSetting=2;
+												}
+												if(rb[3].isChecked())
+												{
+													//loud
+													soundSetting=3;
+												}
 											}
-											if(rb[1].isChecked())
-											{
-												//vibrate
-												checkedValue=1;
-											}
-											if(rb[2].isChecked())
-											{
-												//normal
-												checkedValue=2;
-											}
-											if(rb[3].isChecked())
-											{
-												//loud
-												checkedValue=3;
-											}
-										}
-										//TODO return checkedValue
-									});  
+										});  
+									}
+									else if (!sound.isChecked())
+									{
+										((ViewGroup) findViewById(R.id.Buttons)).removeView(rgSounds);
+									}
 								}
 							});
-							//et.getText().toString();
 						}
 					});
 				}
@@ -314,6 +436,76 @@ public class Sync_Center extends Activity
 		//deleteButton = (Button) findViewById(R.id.delete);
 		//((ViewGroup) findViewById(R.id.relativeLayout)).addView(Buttons);
 		setContentView(findViewById(R.id.relativeLayout));
+	}
+
+
+	public EditText getText() {
+		return Text;
+	}
+
+
+	public void setText(EditText text) {
+		Text = text;
+	}
+
+
+	public LinearLayout getTextLayout() {
+		return TextLayout;
+	}
+
+
+	public void setTextLayout(LinearLayout textLayout) {
+		TextLayout = textLayout;
+	}
+
+
+	public boolean isWifiSelected() {
+		return wifiSelected;
+	}
+
+
+	public void setWifiSelected(boolean wifiSelected) {
+		this.wifiSelected = wifiSelected;
+	}
+
+
+	public boolean isSoundSelected() {
+		return soundSelected;
+	}
+
+
+	public void setSoundSelected(boolean soundSelected) {
+		this.soundSelected = soundSelected;
+	}
+
+
+	public boolean isBluetoothSelected() {
+		return bluetoothSelected;
+	}
+
+
+	public void setBluetoothSelected(boolean bluetoothSelected) {
+		this.bluetoothSelected = bluetoothSelected;
+	}
+
+
+	public boolean isSmsSelected() {
+		return smsSelected;
+	}
+
+
+	public void setSmsSelected(boolean smsSelected) {
+		this.smsSelected = smsSelected;
+	}
+
+
+	public String getTextMessage() {
+		return textMessage;
+	}
+
+
+	public void setTextMessage(String textMessage) {
+		this.textMessage = textMessage;
 	}
 
 
