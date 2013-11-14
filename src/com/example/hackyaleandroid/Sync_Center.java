@@ -1,13 +1,11 @@
 package com.example.hackyaleandroid;
+import java.util.HashMap;
 import android.media.AudioManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.telephony.SmsManager;
-import android.util.Log;
-import android.view.Menu;
 import android.widget.TextView;
 import android.widget.Button;
 import android.view.View;
@@ -15,30 +13,34 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
+import android.widget.Toast;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.view.MotionEvent;
-import android.view.View.OnTouchListener;
+
+import com.google.android.gms.location.Geofence;
 
 
 public class Sync_Center extends Activity 
 {
-
+	// Add geofences handler
+	public static BluetoothAdapter mBluetoothAdapter;
+	public static WifiManager mwifiManager;
+	public static AudioManager maudioManager;
+	public static SmsManager msms;
+	public static Context mcontext;
+	public static HashMap<String, LocationSync> currentLocationSyncs;
+	public static HashMap<String, TimeSync	> currentTimeSyncs;
 	EditText Text;
 	ImageButton plusButton; 
 	Button deleteButton;
+	EditText title;
 
 	public RadioButton[] getRb() {
 		return rb;
@@ -93,7 +95,7 @@ public class Sync_Center extends Activity
 	static int State = MAIN;
 	//temp 
 	Button[] buttons = new Button[10];
-	int numberOfSyncs=2;
+	
 	ImageButton header;
 	RadioButton[] rb;
 	RadioGroup arriveLeave, rgSounds;
@@ -102,14 +104,18 @@ public class Sync_Center extends Activity
 	int arriveOrLeave, soundSetting;
 	boolean wifiSelected, soundSelected, bluetoothSelected, smsSelected;
 	String textMessage,phoneNumber;
+	int numberOfSyncs;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sync__center);
-		final Context mcontext = getBaseContext() ;
-
+		final Context mcontext = getApplicationContext() ;
+		
+		currentLocationSyncs = new HashMap<String,LocationSync>();
+		numberOfSyncs=currentLocationSyncs.size();
+		
 		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		WifiManager wifiManager = (WifiManager) mcontext.getSystemService(Context.WIFI_SERVICE);
 		AudioManager audioManager = (AudioManager) mcontext.getSystemService(Context.AUDIO_SERVICE);
@@ -121,6 +127,7 @@ public class Sync_Center extends Activity
 		TextLayout = new LinearLayout(mcontext);
 		Address = new TextView(mcontext);
 		arriveOrLeave=0;//0 means arrive, 1 means leave
+		title=new EditText(mcontext);
 
 
 		header= new ImageButton(mcontext);
@@ -157,7 +164,7 @@ public class Sync_Center extends Activity
 			{
 				public void onClick(View v)
 				{
-					Toast.makeText(getApplicationContext(), "Button Pressed", Toast.LENGTH_SHORT).show();
+					
 				}
 			});
 
@@ -216,7 +223,7 @@ public class Sync_Center extends Activity
 					((ViewGroup) findViewById(R.id.Buttons)).addView(location);
 					((ViewGroup) findViewById(R.id.Buttons)).addView(spacer);
 					((ViewGroup) findViewById(R.id.Buttons)).addView(spacer2);
-					((ViewGroup) findViewById(R.id.Buttons)).addView(time);
+					//((ViewGroup) findViewById(R.id.Buttons)).addView(time);
 
 					location.setOnClickListener(new OnClickListener()
 					{
@@ -233,7 +240,7 @@ public class Sync_Center extends Activity
 							//title text
 
 							TextLayout.setOrientation(LinearLayout.VERTICAL);
-							EditText title=new EditText(mcontext);
+							
 							TextView label = new TextView(mcontext);
 							title.setBackgroundColor(Color.GRAY);
 							LinearLayout.LayoutParams layoutParams =new LinearLayout.LayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
@@ -285,11 +292,11 @@ public class Sync_Center extends Activity
 							});  
 
 							final CheckBox wifi = new CheckBox(mcontext);	
-							wifi.setText("Wifi");
+							wifi.setText("Turn Wifi On");
 							final CheckBox sound = new CheckBox(mcontext);
-							sound.setText("Sound");
+							sound.setText("Change Sound");
 							final CheckBox bluetooth = new CheckBox(mcontext);
-							bluetooth.setText("Bluetooth");
+							bluetooth.setText("Turn Bluetooth On");
 							final CheckBox sms = new CheckBox(mcontext);	
 							sms.setText("Send Text Message");
 
@@ -359,7 +366,7 @@ public class Sync_Center extends Activity
 										textMessage="";
 										phoneNumber="";
 										smsSelected=false;
-										
+
 									}
 								}
 							});
@@ -429,29 +436,87 @@ public class Sync_Center extends Activity
 									}
 								}
 							});
-						Button submit = new Button(mcontext);
-						submit.setText("SUBMIT");
-						((ViewGroup) findViewById(R.id.Buttons)).addView(submit);
-						submit.setOnClickListener(new OnClickListener()
-						{
-							public void onClick(View v)
+							Button submit = new Button(mcontext);
+							submit.setText("SUBMIT");
+							((ViewGroup) findViewById(R.id.Buttons)).addView(submit);
+							submit.setOnClickListener(new OnClickListener()
 							{
-								Toast.makeText(getApplicationContext(), "Submitted!", Toast.LENGTH_SHORT).show();
-							}
+								public void onClick(View v)
+								{
+									LocationSync sync = new LocationSync(Sync_Center.this,title.getText().toString(), wifiSelected, bluetoothSelected, smsSelected, soundSetting, new TextMessage(phoneNumber,textMessage), Address.getText().toString(), 40, Geofence.GEOFENCE_TRANSITION_ENTER);
+									currentLocationSyncs.put(title.getText().toString(), sync);
+							//		Toast.makeText(mcontext, "Submitted!", 10);
+									//we want the main screen, which draws ImageButtons of the saved syncsIn addition to a plus up top
+									//((ViewGroup) findViewById(R.id.relativeLayout)).removeViewInLayout(buttons);
+									header.setImageResource(R.drawable.header_logo);
+									header.setScaleType(ImageView.ScaleType.FIT_CENTER);
+									header.setBackground(null);
+									/*
+									((ViewGroup) findViewById(R.id.headerDiv)).addView(header);
+									//ImageButton plusButton1 = new ImageButton(this);
+									plusButton1.setBackgroundResource(R.drawable.circ_plus);
+									plusButton1.setVisibility(View.INVISIBLE);
+									//ImageButton plusButton2 = new ImageButton(this);
+									plusButton2.setBackgroundResource(R.drawable.circ_plus);
+									((ViewGroup) findViewById(R.id.Buttons)).addView(plusButton2);
+									plusButton2.setVisibility(View.INVISIBLE);
+
+									plusButton = new ImageButton(mcontext);
+									plusButton.setBackground(null);
+									plusButton.setBackgroundResource(R.drawable.circ_plus);
+									plusButton.setLayoutParams(new LinearLayout.LayoutParams(100, 100));
+
+
+									((ViewGroup) findViewById(R.id.Buttons)).addView(plusButton);
+									*/
+									for(int i=0; i < numberOfSyncs; i++)
+									{
+										Button button = new Button(mcontext);
+										button.setId(i+1);
+										button.setText("NEW Buttons"+(i+1));
+
+										button.setOnClickListener(new OnClickListener()
+										{
+											public void onClick(View v)
+											{
+												
+											}
+										});
+
+										((ViewGroup) findViewById(R.id.Buttons)).addView(button);
+									}
+									plusButton.setOnClickListener(new OnClickListener()
+									{
+										public void onClick(View v)
+										{
+											State=CHOOSESYNC;
+											System.out.println("state changed!" +State);
+											if(State==CHOOSESYNC)
+											{
+												//start afresh! by removing the plus button (then updating the logo) and removing the already established syncs!
+												((ViewGroup) findViewById(R.id.headerDiv)).removeView(header);
+												((ViewGroup) findViewById(R.id.Buttons)).removeView(plusButton);
+												for (int i=0;i<numberOfSyncs;i++)
+												{
+													((ViewGroup) findViewById(R.id.Buttons)).removeView(findViewById(i+1));
+												}
+
+												//draw the new header
+												ImageButton headerBuild= new ImageButton(mcontext);
+												headerBuild.setImageResource(R.drawable.header_build);
+												headerBuild.setScaleType(ImageView.ScaleType.FIT_CENTER);
+												headerBuild.setBackground(null);
+												((ViewGroup) findViewById(R.id.headerDiv)).addView(headerBuild);
+											}
+										}
+									});
+									
+										
+								}
 							});
 						}
 					});
 				}
-
-
-
-				Toast.makeText(getApplicationContext(), "Button Pressed!", Toast.LENGTH_SHORT).show();
-				/*
-					Button button = new Button(mcontext);
-					button.setId(buttons.length+1);
-					button.setText("NEW Button");
-					((ViewGroup) findViewById(R.id.headerDiv)).addView(button);
-				 */
 			}
 		});
 
@@ -528,63 +593,6 @@ public class Sync_Center extends Activity
 
 	public void setTextMessage(String textMessage) {
 		this.textMessage = textMessage;
-	}
-
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) 
-	{
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.sync__center, menu);
-		return true;
-	}
-
-
-	public void toggleBluetooth(BluetoothAdapter mBluetoothAdapter,boolean turnOn)
-	{
-		if(turnOn)
-		{
-			mBluetoothAdapter.enable(); 
-		}   
-		else
-		{
-			mBluetoothAdapter.disable();
-		}
-	}
-	//turns on wifi if true, turns off if false
-	public void wifiToggle(WifiManager wifiManager, boolean turnOn)
-	{
-		wifiManager.setWifiEnabled(turnOn);
-	}
-
-	public void soundToggle(AudioManager audioManager, int state)
-	{
-		//For Normal mode
-		if(state==-1)
-		{
-			audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-		}
-
-		//For Silent mode
-		if(state==0)
-		{
-			audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-		}
-
-		//For Vibrate mode
-		if(state==1)
-		{
-			audioManager.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
-		}
-	}
-
-	//sends a text message to a number
-	public void sendSMS(SmsManager sms, String phoneNumber, String message)
-	{ 
-		PendingIntent pi = PendingIntent.getActivity(this, 0,
-				new Intent(), 0); 
-		sms.sendTextMessage(phoneNumber, null, message, pi, null);
-
 	}
 
 }
