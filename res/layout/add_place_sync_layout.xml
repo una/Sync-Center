@@ -1,0 +1,126 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/addSyncLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="top"
+    tools:context=".Sync_Center" >
+
+    <ImageView
+        android:id="@+id/builderHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="-25dp"
+        android:contentDescription="@+string/builderHeader"
+        android:src="@drawable/header_build" />
+
+    <ImageView
+        android:id="@+id/newPlaceSyncHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/builderHeader"
+        android:contentDescription="@+string/newPlaceSyncHeader"
+        android:src="@drawable/h1_new_place_sync" />
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/newPlaceSyncHeader"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/nameOfSync"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/name_of_sync"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <EditText
+                android:id="@+id/nameOfSyncInput"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="8dp"
+                android:layout_toRightOf="@+id/addressOfSync"
+                android:ems="10"
+                android:inputType="text" />
+
+            <TextView
+                android:id="@+id/addressOfSync"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/nameOfSyncInput"
+                android:layout_marginTop="10dp"
+                android:text="@string/address_of_sync"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <EditText
+                android:id="@+id/addressOfSyncInput"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/nameOfSyncInput"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="8dp"
+                android:layout_toRightOf="@id/addressOfSync"
+                android:ems="10"
+                android:inputType="textPostalAddress" />
+
+            <TextView
+                android:id="@+id/radiusOfSync"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/addressOfSyncInput"
+                android:layout_marginTop="10dp"
+                android:text="@string/radius"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <NumberPicker
+                android:id="@+id/radiusOfSyncInput"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/addressOfSync"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="25dp"
+                android:layout_toRightOf="@id/radiusOfSync" />
+
+            <CheckBox
+                android:id="@+id/sendTextCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/radiusOfSyncInput"
+                android:text="@string/send_text" />
+
+            <EditText
+                android:id="@+id/textMessageInput"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/sendTextCheckBox"
+                android:layout_toRightOf="@id/sendTextCheckBox"
+                android:ems="10"
+                android:inputType="textMultiLine" >
+
+                <requestFocus />
+            </EditText>
+
+            <CheckBox
+                android:id="@+id/checkBox2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textMessageInput"
+                android:text="@string/checkbox" />
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

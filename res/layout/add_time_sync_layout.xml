@@ -7,21 +7,13 @@
     tools:context=".Sync_Center" >
 
     <ImageView
-        android:id="@+id/mainHeader"
+        android:id="@+id/builderHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:contentDescription="@+string/mainHeader"
-        android:src="@drawable/header_logo" />
-    
-    <ImageButton
-        android:id="@+id/addSyncButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/mainHeader"
-        android:background="@null"
-        android:contentDescription="@+string/addSync"
-        android:src="@drawable/circ_plus" />
+        android:layout_marginTop="-25dp"
+        android:contentDescription="@+string/builderHeader"
+        android:src="@drawable/header_build" />
 
     <ScrollView
         android:id="@+id/scrollView1"

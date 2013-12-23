@@ -13,23 +13,110 @@
         android:layout_alignParentTop="true"
         android:contentDescription="@+string/mainHeader"
         android:src="@drawable/header_logo" />
-    
-    <ImageButton
+
+    <ImageView
+        android:id="@+id/addSyncHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@+string/aHeader"
+        android:src="@drawable/header_logo" />
+
+    <ImageView
         android:id="@+id/addSyncButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
         android:layout_below="@id/mainHeader"
+        android:layout_marginTop="10dp"
         android:background="@null"
         android:contentDescription="@+string/addSync"
         android:src="@drawable/circ_plus" />
+
+    <ImageButton
+        android:id="@+id/addNewPlaceSync"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mainHeader"
+        android:layout_marginLeft="35dp"
+        android:layout_toRightOf="@+id/addSyncButton"
+        android:background="@null"
+        android:contentDescription="@+string/addSync"
+        android:src="@drawable/new_place" />
+
+    <ImageButton
+        android:id="@+id/addNewTimeSync"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/addNewPlaceSync"
+        android:layout_marginLeft="35dp"
+        android:layout_toRightOf="@+id/addNewPlaceSync"
+        android:background="@null"
+        android:contentDescription="@+string/addSync"
+        android:src="@drawable/new_time" />
 
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/addSyncButton"
+        android:layout_marginTop="30dp"
         android:orientation="vertical" >
-    </ScrollView>
 
-    
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:contentDescription="@+string/addSync"
+                android:src="@drawable/circ_plus" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:contentDescription="@+string/addSync"
+                android:src="@drawable/circ_plus" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:contentDescription="@+string/addSync"
+                android:src="@drawable/circ_plus" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:contentDescription="@+string/addSync"
+                android:src="@drawable/circ_plus" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:contentDescription="@+string/addSync"
+                android:src="@drawable/circ_plus" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:contentDescription="@+string/addSync"
+                android:src="@drawable/circ_plus" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:contentDescription="@+string/addSync"
+                android:src="@drawable/circ_plus" />
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>

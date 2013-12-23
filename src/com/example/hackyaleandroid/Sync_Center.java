@@ -29,6 +29,7 @@ public class Sync_Center extends Activity
 	public static Context mcontext;
 	public static HashMap<String, LocationSync> currentLocationSyncs;
 	public static HashMap<String, TimeSync	> currentTimeSyncs;
+	public static int buildType=0;//if build type is 1, make a place sync, if 2, make a time sync
 	EditText Text;
 	ImageButton plusButton; 
 	Button deleteButton;
@@ -82,12 +83,9 @@ public class Sync_Center extends Activity
 	public void setArriveOrLeave(int arriveOrLeave) {
 		this.arriveOrLeave = arriveOrLeave;
 	}
-
-	final static int MAIN=0,CHOOSESYNC=1, NEWSYNC=2, TIMESYNC=3, PLACESYNC=4;
-	static int State = MAIN;
 	//temp 
 	Button[] buttons = new Button[10];
-	
+
 	ImageButton header;
 	RadioButton[] rb;
 	RadioGroup arriveLeave, rgSounds;
@@ -104,10 +102,10 @@ public class Sync_Center extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sync__center);
 		final Context mcontext = getApplicationContext() ;
-		
+
 		currentLocationSyncs = new HashMap<String,LocationSync>();
 		numberOfSyncs=currentLocationSyncs.size();
-		
+
 		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		WifiManager wifiManager = (WifiManager) mcontext.getSystemService(Context.WIFI_SERVICE);
 		AudioManager audioManager = (AudioManager) mcontext.getSystemService(Context.AUDIO_SERVICE);
@@ -120,20 +118,33 @@ public class Sync_Center extends Activity
 		Address = new TextView(mcontext);
 		arriveOrLeave=0;//0 means arrive, 1 means leave
 		title=new EditText(mcontext);
-
-
 		//we want the main screen, which draws ImageButtons of the saved syncsIn addition to a plus up top
-		//set up main screen: title, plus to add syncs, and view to see previous ones
-		findViewById(R.id.addSyncButton).setOnClickListener(new OnClickListener()
+		//set up main screen: title, plus button to add syncs, and view to see previous ones
+
+		findViewById(R.id.addNewPlaceSync).setOnClickListener(new OnClickListener()
 		{
 			public void onClick(View v)
 			{
-				//switch intent
+				buildType=1;
 				Intent intent = new Intent(Sync_Center.this,MenuActivity.class);
 				startActivity(intent);
-			}	
+			}
 		});
 
+		findViewById(R.id.addNewPlaceSync).setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				buildType=2;
+				Intent intent = new Intent(Sync_Center.this,MenuActivity.class);
+				startActivity(intent);
+			}
+		});
+
+		/*
+		 * //switch intent
+				Intent intent = new Intent(Sync_Center.this,MenuActivity.class);
+				startActivity(intent);
 
 		for(int i=0; i < numberOfSyncs; i++)
 		{
@@ -152,8 +163,8 @@ public class Sync_Center extends Activity
 			});
 
 			//((ViewGroup) findViewById(R.id.Buttons)).addView(button);
-		}
-		
+		}/*
+
 //		plusButton.setOnClickListener(new OnClickListener()
 //		{
 //			public void onClick(View v)
@@ -451,54 +462,54 @@ public class Sync_Center extends Activity
 //
 //									((ViewGroup) findViewById(R.id.Buttons)).addView(plusButton);
 //									*/
-//									for(int i=0; i < numberOfSyncs; i++)
-//									{
-//										Button button = new Button(mcontext);
-//										button.setId(i+1);
-//										button.setText("NEW Buttons"+(i+1));
-//
-//										button.setOnClickListener(new OnClickListener()
-//										{
-//											public void onClick(View v)
-//											{
-//												
-//											}
-//										});
-//
-//										((ViewGroup) findViewById(R.id.Buttons)).addView(button);
-//									}
-//									plusButton.setOnClickListener(new OnClickListener()
-//									{
-//										public void onClick(View v)
-//										{
-//											State=CHOOSESYNC;
-//											System.out.println("state changed!" +State);
-//											if(State==CHOOSESYNC)
-//											{
-//												//start afresh! by removing the plus button (then updating the logo) and removing the already established syncs!
-//												((ViewGroup) findViewById(R.id.Buttons)).removeView(plusButton);
-//												for (int i=0;i<numberOfSyncs;i++)
-//												{
-//													((ViewGroup) findViewById(R.id.Buttons)).removeView(findViewById(i+1));
-//												}
-//
-//												//draw the new header
-//												ImageButton headerBuild= new ImageButton(mcontext);
-//												headerBuild.setImageResource(R.drawable.header_build);
-//												headerBuild.setScaleType(ImageView.ScaleType.FIT_CENTER);
-//												headerBuild.setBackground(null);
-//											}
-//										}
-//									});
-//									
-//										
-//								}
-//							});
-//						}
-//					});
-//				}
-//			}
-//		});
+		//									for(int i=0; i < numberOfSyncs; i++)
+		//									{
+		//										Button button = new Button(mcontext);
+		//										button.setId(i+1);
+		//										button.setText("NEW Buttons"+(i+1));
+		//
+		//										button.setOnClickListener(new OnClickListener()
+		//										{
+		//											public void onClick(View v)
+		//											{
+		//												
+		//											}
+		//										});
+		//
+		//										((ViewGroup) findViewById(R.id.Buttons)).addView(button);
+		//									}
+		//									plusButton.setOnClickListener(new OnClickListener()
+		//									{
+		//										public void onClick(View v)
+		//										{
+		//											State=CHOOSESYNC;
+		//											System.out.println("state changed!" +State);
+		//											if(State==CHOOSESYNC)
+		//											{
+		//												//start afresh! by removing the plus button (then updating the logo) and removing the already established syncs!
+		//												((ViewGroup) findViewById(R.id.Buttons)).removeView(plusButton);
+		//												for (int i=0;i<numberOfSyncs;i++)
+		//												{
+		//													((ViewGroup) findViewById(R.id.Buttons)).removeView(findViewById(i+1));
+		//												}
+		//
+		//												//draw the new header
+		//												ImageButton headerBuild= new ImageButton(mcontext);
+		//												headerBuild.setImageResource(R.drawable.header_build);
+		//												headerBuild.setScaleType(ImageView.ScaleType.FIT_CENTER);
+		//												headerBuild.setBackground(null);
+		//											}
+		//										}
+		//									});
+		//									
+		//										
+		//								}
+		//							});
+		//						}
+		//					});
+		//				}
+		//			}
+		//		});
 
 		//deleteButton = (Button) findViewById(R.id.delete);
 		//((ViewGroup) findViewById(R.id.relativeLayout)).addView(Buttons);
