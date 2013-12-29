@@ -230,31 +230,48 @@ containing a value of this type.
         public static final int swipe_on=0x7f020032;
     }
     public static final class id {
-        public static final int action_settings=0x7f050018;
+        public static final int action_settings=0x7f050029;
         public static final int addNewPlaceSync=0x7f050009;
         public static final int addNewTimeSync=0x7f05000a;
         public static final int addSyncButton=0x7f050008;
         public static final int addSyncHeader=0x7f050007;
         public static final int addSyncLayout=0x7f05000c;
-        public static final int addressOfSync=0x7f050011;
-        public static final int addressOfSyncInput=0x7f050012;
+        public static final int bluetoothCheckBox=0x7f05001d;
+        public static final int bluetoothToggle=0x7f05001e;
         public static final int builderHeader=0x7f05000d;
-        public static final int checkBox2=0x7f050017;
         public static final int hybrid=0x7f050004;
+        public static final int locationOfSync=0x7f050011;
+        public static final int locationOfSyncInput=0x7f050012;
+        public static final int loudButton=0x7f050024;
+        public static final int loudText=0x7f050028;
         public static final int mainHeader=0x7f050006;
         public static final int mainLayout=0x7f050005;
+        public static final int milesText=0x7f050015;
         public static final int nameOfSync=0x7f05000f;
         public static final int nameOfSyncInput=0x7f050010;
         public static final int newPlaceSyncHeader=0x7f05000e;
         public static final int none=0x7f050000;
         public static final int normal=0x7f050001;
+        public static final int normalButton=0x7f050023;
+        public static final int normalText=0x7f050027;
         public static final int radiusOfSync=0x7f050013;
         public static final int radiusOfSyncInput=0x7f050014;
+        public static final int ringerCheckBox=0x7f05001f;
+        public static final int ringerRadioGroup=0x7f050020;
         public static final int satellite=0x7f050002;
         public static final int scrollView1=0x7f05000b;
-        public static final int sendTextCheckBox=0x7f050015;
+        public static final int sendTextCheckBox=0x7f050016;
+        public static final int sendTextInput=0x7f05001a;
+        public static final int sendTextRecipient=0x7f050018;
+        public static final int silentButton=0x7f050021;
+        public static final int silentText=0x7f050025;
         public static final int terrain=0x7f050003;
-        public static final int textMessageInput=0x7f050016;
+        public static final int textMessage=0x7f050019;
+        public static final int textRecipient=0x7f050017;
+        public static final int vibrateButton=0x7f050022;
+        public static final int vibrateText=0x7f050026;
+        public static final int wifiCheckBox=0x7f05001b;
+        public static final int wifiToggle=0x7f05001c;
     }
     public static final class integer {
         public static final int google_play_services_version=0x7f070000;
@@ -269,9 +286,9 @@ containing a value of this type.
         public static final int sync__center=0x7f0a0001;
     }
     public static final class string {
-        public static final int aHeader=0x7f060023;
+        public static final int aHeader=0x7f06002d;
         public static final int action_settings=0x7f06001b;
-        public static final int addSync=0x7f060024;
+        public static final int addSync=0x7f06002e;
         public static final int address_of_sync=0x7f06001d;
         public static final int app_name=0x7f06001a;
         public static final int arrive_leave=0x7f06001e;
@@ -298,7 +315,8 @@ containing a value of this type.
         [CHAR LIMIT=70] 
          */
         public static final int auth_client_using_bad_version_title=0x7f060014;
-        public static final int builderHeader=0x7f060025;
+        public static final int bluetooth=0x7f060025;
+        public static final int builderHeader=0x7f06002f;
         public static final int checkbox=0x7f060021;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
         will direct user to application settings of Google Play services where they
@@ -371,11 +389,20 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f060013;
-        public static final int mainHeader=0x7f060022;
+        public static final int loud=0x7f06002b;
+        public static final int mainHeader=0x7f06002c;
+        public static final int message=0x7f060023;
+        public static final int miles=0x7f060027;
         public static final int name_of_sync=0x7f06001c;
-        public static final int newPlaceSyncHeader=0x7f060026;
+        public static final int newPlaceSyncHeader=0x7f060030;
+        public static final int normal=0x7f06002a;
         public static final int radius=0x7f06001f;
+        public static final int recipient=0x7f060022;
+        public static final int ringer=0x7f060026;
         public static final int send_text=0x7f060020;
+        public static final int silent=0x7f060028;
+        public static final int vibrate=0x7f060029;
+        public static final int wifi=0x7f060024;
     }
     public static final class style {
         /** 

@@ -131,7 +131,7 @@ public class Sync_Center extends Activity
 			}
 		});
 
-		findViewById(R.id.addNewPlaceSync).setOnClickListener(new OnClickListener()
+		findViewById(R.id.addNewTimeSync).setOnClickListener(new OnClickListener()
 		{
 			public void onClick(View v)
 			{

@@ -9,5 +9,15 @@
     <string name="radius">Radius</string>
     <string name="send_text">Send Text</string>
     <string name="checkbox">CheckBox</string>
+    <string name="recipient">Recipient</string>
+    <string name="message">Message</string>
+    <string name="wifi">Wifi</string>
+    <string name="bluetooth">Bluetooth</string>
+    <string name="ringer">Sound</string>
+    <string name="miles">Miles</string>
+    <string name="silent">Silent  </string>
+    <string name="vibrate">Vibrate </string>
+    <string name="normal">Normal</string>
+    <string name="loud">Loud  </string>
 
 </resources>

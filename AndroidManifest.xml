@@ -35,7 +35,6 @@
             android:windowSoftInputMode="stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -46,8 +45,7 @@
             android:parentActivityName="com.example.hackyaleandroid.Sync_Center"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
-            >
-
+            
             <meta-data
                 android:name="android.support.MainActivity"
                 android:value="com.example.arctrav.MainActivity" />

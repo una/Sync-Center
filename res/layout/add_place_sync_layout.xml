@@ -51,12 +51,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="14dp"
                 android:layout_marginTop="8dp"
-                android:layout_toRightOf="@+id/addressOfSync"
+                android:layout_toRightOf="@+id/locationOfSync"
                 android:ems="10"
                 android:inputType="text" />
 
             <TextView
-                android:id="@+id/addressOfSync"
+                android:id="@+id/locationOfSync"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/nameOfSyncInput"
@@ -65,13 +65,13 @@
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <EditText
-                android:id="@+id/addressOfSyncInput"
+                android:id="@+id/locationOfSyncInput"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/nameOfSyncInput"
                 android:layout_marginLeft="14dp"
                 android:layout_marginTop="8dp"
-                android:layout_toRightOf="@id/addressOfSync"
+                android:layout_toRightOf="@id/locationOfSync"
                 android:ems="10"
                 android:inputType="textPostalAddress" />
 
@@ -79,7 +79,7 @@
                 android:id="@+id/radiusOfSync"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/addressOfSyncInput"
+                android:layout_below="@id/locationOfSyncInput"
                 android:layout_marginTop="10dp"
                 android:text="@string/radius"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -88,10 +88,21 @@
                 android:id="@+id/radiusOfSyncInput"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/addressOfSync"
+                android:layout_below="@id/locationOfSync"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="25dp"
                 android:layout_toRightOf="@id/radiusOfSync" />
+
+            <TextView
+                android:id="@+id/milesText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/locationOfSync"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="78dp"
+                android:layout_toRightOf="@+id/radiusOfSyncInput"
+                android:text="@string/miles"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <CheckBox
                 android:id="@+id/sendTextCheckBox"
@@ -101,25 +112,158 @@
                 android:layout_below="@id/radiusOfSyncInput"
                 android:text="@string/send_text" />
 
-            <EditText
-                android:id="@+id/textMessageInput"
+            <TextView
+                android:id="@+id/textRecipient"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/sendTextCheckBox"
-                android:layout_toRightOf="@id/sendTextCheckBox"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/locationOfSync"
+                android:text="@string/recipient"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <EditText
+                android:id="@+id/sendTextRecipient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textRecipient"
+                android:layout_marginLeft="14dp"
+                android:layout_toRightOf="@+id/locationOfSync"
+                android:ems="10"
+                android:inputType="text" />
+
+            <TextView
+                android:id="@+id/textMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/sendTextRecipient"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/locationOfSync"
+                android:text="@string/message"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <EditText
+                android:id="@+id/sendTextInput"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textMessage"
+                android:layout_marginLeft="14dp"
+                android:layout_toRightOf="@id/locationOfSync"
                 android:ems="10"
                 android:inputType="textMultiLine" >
-
-                <requestFocus />
             </EditText>
 
             <CheckBox
-                android:id="@+id/checkBox2"
+                android:id="@+id/wifiCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@+id/textMessageInput"
-                android:text="@string/checkbox" />
+                android:layout_below="@+id/sendTextInput"
+                android:text="@string/wifi" />
+
+            <ToggleButton
+                android:id="@+id/wifiToggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/wifiCheckBox"
+                android:layout_marginRight="50dp"
+                android:background="@drawable/swipe"
+                android:text=""
+                android:textOff=""
+                android:textOn="" />
+
+            <CheckBox
+                android:id="@+id/bluetoothCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/wifiToggle"
+                android:text="@string/bluetooth" />
+
+            <ToggleButton
+                android:id="@+id/bluetoothToggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/bluetoothCheckBox"
+                android:layout_marginRight="50dp"
+                android:background="@drawable/swipe"
+                android:text=""
+                android:textOff=""
+                android:textOn="" />
+
+            <CheckBox
+                android:id="@+id/ringerCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/bluetoothToggle"
+                android:text="@string/ringer" />
+
+            <RadioGroup
+                android:id="@+id/ringerRadioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/ringerCheckBox"
+                android:layout_gravity="right"
+                android:layout_marginRight="48dp" >
+
+                <RadioButton android:id="@+id/silentButton" />
+
+                <RadioButton android:id="@+id/vibrateButton" />
+
+                <RadioButton android:id="@+id/normalButton" />
+
+                <RadioButton android:id="@+id/loudButton" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/silentText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ringerCheckBox"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="9dp"
+                android:layout_toRightOf="@+id/radiusOfSyncInput"
+                android:text="@string/silent"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/vibrateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/silentText"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="23dp"
+                android:layout_toRightOf="@+id/radiusOfSyncInput"
+                android:text="@string/vibrate"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+            
+            <TextView
+                android:id="@+id/normalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/vibrateText"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="23dp"
+                android:layout_toRightOf="@+id/radiusOfSyncInput"
+                android:text="@string/normal"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+            
+            <TextView
+                android:id="@+id/loudText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/normalText"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="23dp"
+                android:layout_toRightOf="@+id/radiusOfSyncInput"
+                android:text="@string/loud"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
         </RelativeLayout>
     </ScrollView>
 
