@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/builderHeader"
+        android:layout_below="@id/builderHeader"
         android:contentDescription="@+string/newPlaceSyncHeader"
         android:src="@drawable/h1_new_place_sync" />
 
@@ -28,7 +28,7 @@
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/newPlaceSyncHeader"
+        android:layout_below="@id/newPlaceSyncHeader"
         android:layout_marginTop="20dp"
         android:orientation="vertical" >
 
@@ -100,16 +100,26 @@
                 android:layout_below="@id/locationOfSync"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="78dp"
-                android:layout_toRightOf="@+id/radiusOfSyncInput"
+                android:layout_toRightOf="@id/radiusOfSyncInput"
                 android:text="@string/miles"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/milesText"
+                android:layout_marginTop="50dp"
+                android:text="@string/action"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <CheckBox
                 android:id="@+id/sendTextCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@id/radiusOfSyncInput"
+                android:layout_below="@id/action"
+                android:layout_marginLeft="14dp"
+                android:layout_toRightOf="@id/locationOfSync"
                 android:text="@string/send_text" />
 
             <TextView
@@ -118,8 +128,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/sendTextCheckBox"
                 android:layout_marginLeft="14dp"
-                android:layout_marginTop="10dp"
-                android:layout_toRightOf="@+id/locationOfSync"
+                android:layout_marginTop="7dp"
+                android:layout_toRightOf="@id/locationOfSync"
                 android:text="@string/recipient"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -129,7 +139,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/textRecipient"
                 android:layout_marginLeft="14dp"
-                android:layout_toRightOf="@+id/locationOfSync"
+                android:layout_toRightOf="@id/locationOfSync"
                 android:ems="10"
                 android:inputType="text" />
 
@@ -140,7 +150,7 @@
                 android:layout_below="@id/sendTextRecipient"
                 android:layout_marginLeft="14dp"
                 android:layout_marginTop="10dp"
-                android:layout_toRightOf="@+id/locationOfSync"
+                android:layout_toRightOf="@id/locationOfSync"
                 android:text="@string/message"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -159,8 +169,9 @@
                 android:id="@+id/wifiCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/sendTextInput"
+                android:layout_below="@id/sendTextInput"
+                android:layout_marginLeft="14dp"
+                android:layout_toRightOf="@id/locationOfSync"
                 android:text="@string/wifi" />
 
             <ToggleButton
@@ -179,8 +190,9 @@
                 android:id="@+id/bluetoothCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/wifiToggle"
+                android:layout_below="@id/wifiToggle"
+                android:layout_marginLeft="14dp"
+                android:layout_toRightOf="@id/locationOfSync"
                 android:text="@string/bluetooth" />
 
             <ToggleButton
@@ -199,22 +211,41 @@
                 android:id="@+id/ringerCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
                 android:layout_below="@id/bluetoothToggle"
+                android:layout_marginLeft="14dp"
+                android:layout_toRightOf="@id/locationOfSync"
                 android:text="@string/ringer" />
+
+            <TextView
+                android:id="@+id/vibrateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ringerCheckBox"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@id/radiusOfSyncInput"
+                android:text="@string/vibrate"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <CheckBox
+                android:id="@+id/vibrateCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ringerCheckBox"
+                android:layout_marginLeft="18dp"
+                android:layout_toRightOf="@id/vibrateText" />
 
             <RadioGroup
                 android:id="@+id/ringerRadioGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_below="@id/ringerCheckBox"
+                android:layout_below="@id/vibrateText"
                 android:layout_gravity="right"
-                android:layout_marginRight="48dp" >
+                android:layout_marginRight="48dp"
+                android:layout_marginTop="8dp" >
 
                 <RadioButton android:id="@+id/silentButton" />
-
-                <RadioButton android:id="@+id/vibrateButton" />
 
                 <RadioButton android:id="@+id/normalButton" />
 
@@ -225,44 +256,78 @@
                 android:id="@+id/silentText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ringerCheckBox"
+                android:layout_below="@id/vibrateCheckBox"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="9dp"
-                android:layout_toRightOf="@+id/radiusOfSyncInput"
+                android:layout_toRightOf="@id/radiusOfSyncInput"
                 android:text="@string/silent"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
-                android:id="@+id/vibrateText"
+                android:id="@+id/normalText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/silentText"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="23dp"
-                android:layout_toRightOf="@+id/radiusOfSyncInput"
-                android:text="@string/vibrate"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-            
-            <TextView
-                android:id="@+id/normalText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/vibrateText"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="23dp"
-                android:layout_toRightOf="@+id/radiusOfSyncInput"
+                android:layout_marginTop="24dp"
+                android:layout_toRightOf="@id/radiusOfSyncInput"
                 android:text="@string/normal"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
-            
+
             <TextView
                 android:id="@+id/loudText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/normalText"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="23dp"
-                android:layout_toRightOf="@+id/radiusOfSyncInput"
+                android:layout_marginTop="25dp"
+                android:layout_toRightOf="@id/radiusOfSyncInput"
                 android:text="@string/loud"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/arriveLeaveText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/ringerRadioGroup"
+                android:text="@string/trigger"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/arriveLeaveText"
+                android:layout_gravity="right"
+                android:layout_marginRight="48dp"
+                android:layout_marginTop="8dp" >
+
+                <RadioButton android:id="@+id/arrivingButton" />
+
+                <RadioButton android:id="@+id/leavingButton" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/arriveText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/arriveLeaveText"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@id/radiusOfSyncInput"
+                android:text="@string/arrive"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/leaveText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/arriveText"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@id/radiusOfSyncInput"
+                android:text="@string/leave"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </RelativeLayout>
     </ScrollView>

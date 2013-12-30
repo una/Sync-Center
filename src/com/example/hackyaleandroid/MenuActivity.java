@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.widget.NumberPicker;
 import android.widget.CheckBox;
 import android.app.Activity;
-import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,6 +26,7 @@ public class MenuActivity extends Activity {
 			findViewById(R.id.bluetoothToggle).setVisibility(View.GONE);
 			findViewById(R.id.ringerRadioGroup).setVisibility(View.GONE);
 			findViewById(R.id.silentText).setVisibility(View.GONE);
+			findViewById(R.id.vibrateCheckBox).setVisibility(View.GONE);
 			findViewById(R.id.vibrateText).setVisibility(View.GONE);
 			findViewById(R.id.normalText).setVisibility(View.GONE);
 			findViewById(R.id.loudText).setVisibility(View.GONE);
@@ -96,6 +96,7 @@ public class MenuActivity extends Activity {
 					{
 						findViewById(R.id.ringerRadioGroup).setVisibility(View.VISIBLE);
 						findViewById(R.id.silentText).setVisibility(View.VISIBLE);
+						findViewById(R.id.vibrateCheckBox).setVisibility(View.VISIBLE);
 						findViewById(R.id.vibrateText).setVisibility(View.VISIBLE);
 						findViewById(R.id.normalText).setVisibility(View.VISIBLE);
 						findViewById(R.id.loudText).setVisibility(View.VISIBLE);
@@ -105,6 +106,7 @@ public class MenuActivity extends Activity {
 					{
 						findViewById(R.id.ringerRadioGroup).setVisibility(View.GONE);
 						findViewById(R.id.silentText).setVisibility(View.GONE);
+						findViewById(R.id.vibrateCheckBox).setVisibility(View.GONE);
 						findViewById(R.id.vibrateText).setVisibility(View.GONE);
 						findViewById(R.id.normalText).setVisibility(View.GONE);
 						findViewById(R.id.loudText).setVisibility(View.GONE);

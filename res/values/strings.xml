@@ -3,6 +3,7 @@
 
     <string name="app_name">HackYaleAndroid</string>
     <string name="action_settings">Settings</string>
+    <string name="action">Action</string>
     <string name="name_of_sync">Title</string>
     <string name="address_of_sync">Location</string>
     <string name="arrive_leave">When you arrive?</string>
@@ -19,5 +20,8 @@
     <string name="vibrate">Vibrate </string>
     <string name="normal">Normal</string>
     <string name="loud">Loud  </string>
+    <string name="trigger">Trigger </string>
+    <string name="arrive">Arrive </string>
+    <string name="leave">Leave </string>
 
 </resources>
