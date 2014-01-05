@@ -29,7 +29,6 @@ public class MenuActivity extends Activity {
 			findViewById(R.id.vibrateCheckBox).setVisibility(View.GONE);
 			findViewById(R.id.vibrateText).setVisibility(View.GONE);
 			findViewById(R.id.normalText).setVisibility(View.GONE);
-			findViewById(R.id.loudText).setVisibility(View.GONE);
 
 			//set up the number picker
 			((NumberPicker) findViewById(R.id.radiusOfSyncInput)).setMinValue(1);
@@ -99,7 +98,6 @@ public class MenuActivity extends Activity {
 						findViewById(R.id.vibrateCheckBox).setVisibility(View.VISIBLE);
 						findViewById(R.id.vibrateText).setVisibility(View.VISIBLE);
 						findViewById(R.id.normalText).setVisibility(View.VISIBLE);
-						findViewById(R.id.loudText).setVisibility(View.VISIBLE);
 					}
 					
 					else
@@ -109,7 +107,6 @@ public class MenuActivity extends Activity {
 						findViewById(R.id.vibrateCheckBox).setVisibility(View.GONE);
 						findViewById(R.id.vibrateText).setVisibility(View.GONE);
 						findViewById(R.id.normalText).setVisibility(View.GONE);
-						findViewById(R.id.loudText).setVisibility(View.GONE);
 					}
 				}
 			});

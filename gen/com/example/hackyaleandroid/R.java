@@ -231,25 +231,22 @@ containing a value of this type.
     }
     public static final class id {
         public static final int action=0x7f050016;
-        public static final int action_settings=0x7f05002f;
+        public static final int action_settings=0x7f05002d;
         public static final int addNewPlaceSync=0x7f050009;
         public static final int addNewTimeSync=0x7f05000a;
         public static final int addSyncButton=0x7f050008;
         public static final int addSyncHeader=0x7f050007;
         public static final int addSyncLayout=0x7f05000c;
-        public static final int arriveLeaveText=0x7f05002a;
-        public static final int arriveText=0x7f05002d;
-        public static final int arrivingButton=0x7f05002b;
+        public static final int arriveText=0x7f05002b;
+        public static final int arrivingButton=0x7f050029;
         public static final int bluetoothCheckBox=0x7f05001e;
         public static final int bluetoothToggle=0x7f05001f;
         public static final int builderHeader=0x7f05000d;
         public static final int hybrid=0x7f050004;
-        public static final int leaveText=0x7f05002e;
-        public static final int leavingButton=0x7f05002c;
+        public static final int leaveText=0x7f05002c;
+        public static final int leavingButton=0x7f05002a;
         public static final int locationOfSync=0x7f050011;
         public static final int locationOfSyncInput=0x7f050012;
-        public static final int loudButton=0x7f050026;
-        public static final int loudText=0x7f050029;
         public static final int mainHeader=0x7f050006;
         public static final int mainLayout=0x7f050005;
         public static final int milesText=0x7f050015;
@@ -259,7 +256,7 @@ containing a value of this type.
         public static final int none=0x7f050000;
         public static final int normal=0x7f050001;
         public static final int normalButton=0x7f050025;
-        public static final int normalText=0x7f050028;
+        public static final int normalText=0x7f050027;
         public static final int radiusOfSync=0x7f050013;
         public static final int radiusOfSyncInput=0x7f050014;
         public static final int ringerCheckBox=0x7f050020;
@@ -270,12 +267,13 @@ containing a value of this type.
         public static final int sendTextInput=0x7f05001b;
         public static final int sendTextRecipient=0x7f050019;
         public static final int silentButton=0x7f050024;
-        public static final int silentText=0x7f050027;
+        public static final int silentText=0x7f050026;
         public static final int terrain=0x7f050003;
         public static final int textMessage=0x7f05001a;
         public static final int textRecipient=0x7f050018;
-        public static final int vibrateCheckBox=0x7f050021;
-        public static final int vibrateText=0x7f050022;
+        public static final int triggerText=0x7f050028;
+        public static final int vibrateCheckBox=0x7f050022;
+        public static final int vibrateText=0x7f050021;
         public static final int wifiCheckBox=0x7f05001c;
         public static final int wifiToggle=0x7f05001d;
     }

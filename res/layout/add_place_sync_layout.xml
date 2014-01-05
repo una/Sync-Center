@@ -249,7 +249,6 @@
 
                 <RadioButton android:id="@+id/normalButton" />
 
-                <RadioButton android:id="@+id/loudButton" />
             </RadioGroup>
 
             <TextView
@@ -274,19 +273,9 @@
                 android:text="@string/normal"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <TextView
-                android:id="@+id/loudText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/normalText"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="25dp"
-                android:layout_toRightOf="@id/radiusOfSyncInput"
-                android:text="@string/loud"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
-                android:id="@+id/arriveLeaveText"
+                android:id="@+id/triggerText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -298,7 +287,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_below="@id/arriveLeaveText"
+                android:layout_below="@id/triggerText"
                 android:layout_gravity="right"
                 android:layout_marginRight="48dp"
                 android:layout_marginTop="8dp" >
@@ -312,7 +301,7 @@
                 android:id="@+id/arriveText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/arriveLeaveText"
+                android:layout_below="@id/triggerText"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="15dp"
                 android:layout_toRightOf="@id/radiusOfSyncInput"
@@ -325,7 +314,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/arriveText"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="25dp"
                 android:layout_toRightOf="@id/radiusOfSyncInput"
                 android:text="@string/leave"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
