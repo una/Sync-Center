@@ -23,5 +23,6 @@
     <string name="trigger">Trigger </string>
     <string name="arrive">Arrive </string>
     <string name="leave">Leave </string>
+    <string name="submit">Submit </string>
 
 </resources>

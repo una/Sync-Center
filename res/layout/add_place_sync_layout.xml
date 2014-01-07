@@ -248,7 +248,6 @@
                 <RadioButton android:id="@+id/silentButton" />
 
                 <RadioButton android:id="@+id/normalButton" />
-
             </RadioGroup>
 
             <TextView
@@ -273,7 +272,6 @@
                 android:text="@string/normal"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-
             <TextView
                 android:id="@+id/triggerText"
                 android:layout_width="wrap_content"
@@ -289,35 +287,30 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/triggerText"
                 android:layout_gravity="right"
-                android:layout_marginRight="48dp"
-                android:layout_marginTop="8dp" >
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="8dp"
+                android:id="@+id/arriveLeaveRadioGroup"
+                android:layout_toRightOf="@id/locationOfSync" >
 
-                <RadioButton android:id="@+id/arrivingButton" />
+                <RadioButton
+                    android:id="@+id/arrivingButton"
+                    android:text="@string/arrive" />
 
-                <RadioButton android:id="@+id/leavingButton" />
+                <RadioButton
+                    android:id="@+id/leavingButton"
+                    android:text="@string/leave" />
             </RadioGroup>
-
-            <TextView
-                android:id="@+id/arriveText"
+            
+            <Button 
+                android:id="@+id/submitButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/triggerText"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_toRightOf="@id/radiusOfSyncInput"
-                android:text="@string/arrive"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <TextView
-                android:id="@+id/leaveText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/arriveText"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="25dp"
-                android:layout_toRightOf="@id/radiusOfSyncInput"
-                android:text="@string/leave"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/arriveLeaveRadioGroup"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/circ_check"
+                />
+            
         </RelativeLayout>
     </ScrollView>
 

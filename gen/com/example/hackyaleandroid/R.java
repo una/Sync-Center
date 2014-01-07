@@ -237,14 +237,13 @@ containing a value of this type.
         public static final int addSyncButton=0x7f050008;
         public static final int addSyncHeader=0x7f050007;
         public static final int addSyncLayout=0x7f05000c;
-        public static final int arriveText=0x7f05002b;
-        public static final int arrivingButton=0x7f050029;
+        public static final int arriveLeaveRadioGroup=0x7f050029;
+        public static final int arrivingButton=0x7f05002a;
         public static final int bluetoothCheckBox=0x7f05001e;
         public static final int bluetoothToggle=0x7f05001f;
         public static final int builderHeader=0x7f05000d;
         public static final int hybrid=0x7f050004;
-        public static final int leaveText=0x7f05002c;
-        public static final int leavingButton=0x7f05002a;
+        public static final int leavingButton=0x7f05002b;
         public static final int locationOfSync=0x7f050011;
         public static final int locationOfSyncInput=0x7f050012;
         public static final int mainHeader=0x7f050006;
@@ -268,6 +267,7 @@ containing a value of this type.
         public static final int sendTextRecipient=0x7f050019;
         public static final int silentButton=0x7f050024;
         public static final int silentText=0x7f050026;
+        public static final int submitButton=0x7f05002c;
         public static final int terrain=0x7f050003;
         public static final int textMessage=0x7f05001a;
         public static final int textRecipient=0x7f050018;
@@ -290,10 +290,10 @@ containing a value of this type.
         public static final int sync__center=0x7f0a0001;
     }
     public static final class string {
-        public static final int aHeader=0x7f060031;
+        public static final int aHeader=0x7f060032;
         public static final int action=0x7f06001c;
         public static final int action_settings=0x7f06001b;
-        public static final int addSync=0x7f060032;
+        public static final int addSync=0x7f060033;
         public static final int address_of_sync=0x7f06001e;
         public static final int app_name=0x7f06001a;
         public static final int arrive=0x7f06002e;
@@ -322,7 +322,7 @@ containing a value of this type.
          */
         public static final int auth_client_using_bad_version_title=0x7f060014;
         public static final int bluetooth=0x7f060026;
-        public static final int builderHeader=0x7f060033;
+        public static final int builderHeader=0x7f060034;
         public static final int checkbox=0x7f060022;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
         will direct user to application settings of Google Play services where they
@@ -397,17 +397,18 @@ containing a value of this type.
         public static final int common_signin_button_text_long=0x7f060013;
         public static final int leave=0x7f06002f;
         public static final int loud=0x7f06002c;
-        public static final int mainHeader=0x7f060030;
+        public static final int mainHeader=0x7f060031;
         public static final int message=0x7f060024;
         public static final int miles=0x7f060028;
         public static final int name_of_sync=0x7f06001d;
-        public static final int newPlaceSyncHeader=0x7f060034;
+        public static final int newPlaceSyncHeader=0x7f060035;
         public static final int normal=0x7f06002b;
         public static final int radius=0x7f060020;
         public static final int recipient=0x7f060023;
         public static final int ringer=0x7f060027;
         public static final int send_text=0x7f060021;
         public static final int silent=0x7f060029;
+        public static final int submit=0x7f060030;
         public static final int trigger=0x7f06002d;
         public static final int vibrate=0x7f06002a;
         public static final int wifi=0x7f060025;
